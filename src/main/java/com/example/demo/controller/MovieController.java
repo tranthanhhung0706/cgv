@@ -26,6 +26,7 @@ public class MovieController {
 		
 		@GetMapping("/movie")
 		public List<MovieDTO> getAllMovie(){
+			//lol danh
 			return movieService.getAllMovie();
 		}
 		@PostMapping("/movie")
