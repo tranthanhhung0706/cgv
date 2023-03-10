@@ -15,6 +15,7 @@ public class MovieConvert {
 			movieDTO.setImage(entity.getLargeImageURL());
 			movieDTO.setDate(entity.getReleaseDate().toString());
 			movieDTO.setCatogery(entity.getCategories());
+			movieDTO.setDescription(entity.getShortDescription());
 			return movieDTO;
 		}
 		public Movie toEntity(MovieDTO movieDTO) {
@@ -24,6 +25,7 @@ public class MovieConvert {
 			movie.setLargeImageURL(movieDTO.getImage());
 			movie.setReleaseDate(LocalDate.parse(movieDTO.getDate()));
 			movie.setCategories(movieDTO.getCatogery());
+			movie.setShortDescription(movieDTO.getDescription());
 			return movie;
 		}
 		public Movie toEntity2(MovieDTO movieDTO,Movie movie) {
@@ -32,6 +34,7 @@ public class MovieConvert {
 			movie.setLargeImageURL(movieDTO.getImage());
 			movie.setReleaseDate(LocalDate.parse(movieDTO.getDate()));
 			movie.setCategories(movieDTO.getCatogery());
+			movie.setShortDescription(movieDTO.getDescription());
 			return movie;
 		}
 }

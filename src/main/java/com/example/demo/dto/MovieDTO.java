@@ -16,6 +16,14 @@ public class MovieDTO {
     private String name;
     private String date;
     private String catogery;
+    private String Description;
+    
+	public String getDescription() {
+		return Description;
+	}
+	public void setDescription(String description) {
+		Description = description;
+	}
 	public Integer getId() {
 		return id;
 	}
