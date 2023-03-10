@@ -26,6 +26,13 @@ public class Customer {
     private LocalDate birthday;
     private String phone_number;
     private String address;
+    public Customer(String name, LocalDate birthday, String phone_number, String address) {
+        this.name = name;
+        this.birthday = birthday;
+        this.phone_number = phone_number;
+        this.address = address;
+    }
+    
     
     
 

@@ -1,5 +1,4 @@
 package com.example.demo.model;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,13 +9,12 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "user")
-@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = false, nullable = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -29,17 +27,24 @@ public class User {
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-	private Set<Role> roles = new HashSet<>();
+	private Set<Role> roles = new HashSet<>();;
     
 	@OneToOne(mappedBy = "user")
     private Customer customer;
-
-    @OneToOne(mappedBy = "user")
+	
+	@OneToOne(mappedBy = "user")
     private Staff staff;
+
+    
 
 	//@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "profile_id")
-    //private  Staff staff;
+	//private  Staff staff;
+	
+	public User() {
+		super();
+	}
+
     
     public User(String username, String password, String fullName) {
 		super();
@@ -51,10 +56,18 @@ public class User {
     
 	
 
-	public User() {
+	public User(String username, String password, String fullName, Set<Role> roles) {
 		super();
+		this.username = username;
+		this.password = password;
+		this.fullName = fullName;
+		this.roles = roles;
 	}
 
+
+
+
+	
 
 
 

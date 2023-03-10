@@ -5,20 +5,28 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.UserPrinciple;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserRepository userRepository;
+	UserRepository userRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
     
   
 	@Override
 	public void save(User user) {
 		// TODO Auto-generated method stub
+		user.setPassword(passwordEncoder.encode(user.getPassword()  ));
 		userRepository.save(user);
 	}
 
@@ -44,15 +52,29 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User FindById(Integer id) {
 		// TODO Auto-generated method stub
-		return userRepository.getOne(id);
+		return userRepository.getById(id);
 	}
 
 	@Override
 	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		userRepository.deleteById(id);
-		
+
 	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<User> userOptional = userRepository.findByUsername(username);
+		if (!userOptional.isPresent()) {
+			throw new UsernameNotFoundException(username);
+		}
+		return UserPrinciple.build(userOptional.get());
+	}
+	
+	@Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
 
     
