@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -25,46 +26,46 @@ import com.example.demo.service.UserService;
 public class UserController {
 	public List<User> users=new ArrayList<User>();
 	@Autowired UserService userService;
-	@PostMapping("/user")
-	public User create(@RequestBody User user) {
-		userService.save(user);
-		return user;
-	}
+//	@PostMapping("/user")
+//	public User create(@RequestBody User user) {
+//		userService.save(user);
+//		return user;
+//	}
 	@GetMapping("/user")
-	public List<User> getAll(){
-		return userService.findAll();
+	public List<UserDTO> getAll(){
+		return userService.findAllUser();
 	}
-	@GetMapping("/user/{id}")
-	public User getUserById(@PathVariable int id) {
-		User hung= userService.FindById(id);
-		try {
-			System.out.println(hung.getUsername());
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("error");
-		}
-		
-		return userService.FindById(id);
-				
-	}
-	@DeleteMapping("/user/{id}")
-	public List<User> delete(@PathVariable int id) {
-		if (userService.FindById(id).getId()!=null) {
-			userService.delete(id);
-		}
-		return userService.findAll();
-	}
-	@PutMapping("/user/{id}")
-	public User update(@RequestBody User user,@PathVariable int id) {
-		try {
-			if (userService.FindById(id).getId()!=null) {
-				user.setId(id);
-				userService.save(user);
-			}
-			return user;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;
-	}
+//	@GetMapping("/user/{id}")
+//	public User getUserById(@PathVariable int id) {
+//		User hung= userService.FindById(id);
+//		try {
+//			System.out.println(hung.getUsername());
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("error");
+//		}
+//		
+//		return userService.FindById(id);
+//				
+//	}
+//	@DeleteMapping("/user/{id}")
+//	public List<User> delete(@PathVariable int id) {
+//		if (userService.FindById(id).getId()!=null) {
+//			userService.delete(id);
+//		}
+//		return userService.findAll();
+//	}
+//	@PutMapping("/user/{id}")
+//	public User update(@RequestBody User user,@PathVariable int id) {
+//		try {
+//			if (userService.FindById(id).getId()!=null) {
+//				user.setId(id);
+//				userService.save(user);
+//			}
+//			return user;
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		return null;
+//	}
 }

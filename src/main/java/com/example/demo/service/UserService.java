@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.example.demo.model.User;
-
+import com.example.demo.dto.UserDTO;
 public interface UserService extends  UserDetailsService {
    void save(User user);
    void updated(User user);
@@ -19,4 +19,5 @@ public interface UserService extends  UserDetailsService {
    UserDetails loadUserByUsername(String username);
    Optional<User> findByUsername(String username);
    
+   List<UserDTO> findAllUser();
 }

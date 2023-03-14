@@ -136,6 +136,7 @@ public ResponseEntity<?> login(@RequestBody User user) {
             Customer customer = new Customer(UserDTO.getFullName(), UserDTO.getBirthday(), UserDTO.getPhone_number(),
                     UserDTO.getAddress());
             customer.setUser(user);
+           
             customerService.save(customer);
 
             Authentication authentication = authenticationManager.authenticate(

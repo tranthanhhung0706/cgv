@@ -11,17 +11,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.User;
+import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.UserPrinciple;
-
+import com.example.demo.convert.UserConvert;
+import com.example.demo.dto.UserDTO;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
 	UserRepository userRepository;
 	
+    @Autowired
+    CustomerRepository customerRepository;
 	@Autowired
     private PasswordEncoder passwordEncoder;
     
+	@Autowired
+	UserConvert userConvert;
   
 	@Override
 	public void save(User user) {
@@ -34,6 +40,17 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
 		return userRepository.findAll();
+	}
+
+	@Override
+	public List<UserDTO> findAllUser() {
+		// TODO Auto-generated method stub
+		List<User> listuser=userRepository.findAll();
+		List<UserDTO> liUserDTOs=new ArrayList<UserDTO>();
+		for(int i=0;i<listuser.size();i++) {
+			liUserDTOs.add(userConvert.toDto(listuser.get(i), customerRepository.findAll().get(i)));
+		}
+		return liUserDTOs;
 	}
 
 	@Override
