@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 
+import com.example.demo.dto.ErrorResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Role;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,30 +52,57 @@ public class AuthController {
     
 
     
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
-        
-        try {
-            
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+    // @PostMapping("/login")
+    // public ResponseEntity<?> login(@RequestBody User user) {
+
+    //     try {
+
+    //         Authentication authentication = authenticationManager.authenticate(
+    //                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+    //         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    //         String jwt = jwtService.generateTokenLogin(authentication);
+
+    //         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    //         User currentUser = userService.findByUsername(user.getUsername()).get();
+
+    //         return ResponseEntity.ok(
+    //                 new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
+    // }
     
-            
-            
-            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwt = jwtService.generateTokenLogin(authentication);
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody User user) {
+    try {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User currentUser = userService.findByUsername(user.getUsername()).get();
-         
-            return ResponseEntity.ok(
-                    new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtService.generateTokenLogin(authentication);
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User currentUser = userService.findByUsername(user.getUsername()).get();
+     
+        return ResponseEntity.ok(
+                new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
+    } catch (BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password."));
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred during login."));
     }
+}
+
+
+
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO UserDTO) {
@@ -119,7 +148,8 @@ public class AuthController {
             return ResponseEntity.ok(
                     new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred during registration."));
         }
 
     }
