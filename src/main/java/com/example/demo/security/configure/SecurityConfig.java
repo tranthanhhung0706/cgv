@@ -5,6 +5,7 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -57,16 +58,22 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**");
-        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
-        http.authorizeRequests()
-                .antMatchers("/", "/login","/api/movies/showing","/api/movies/showing/search","/register","/api/movies/details","/movie").permitAll()
-                .antMatchers("/api/**").hasRole("CLIENT")
-                .anyRequest().authenticated()
-                .and().csrf().disable();
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/", "/login","/api/movies/showing","/api/movies/showing/search","/register","/movie","/user").permitAll();
+        http.antMatcher("/movie/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
+             .sessionManagement()
+             .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+             .antMatchers(HttpMethod.GET,"/movie/**").access("hasRole('ROLE_ADMIN')").and()
+             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                     .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+        // http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
+        // http.authorizeRequests()
+        //         .antMatchers("/", "/login","/api/movies/showing","/api/movies/showing/search","/register","/user").permitAll()
+        //         .anyRequest().authenticated()
+        //         .and().csrf().disable();
+        // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+        //         .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+        // http.sessionManagement()
+        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
     }
 }
