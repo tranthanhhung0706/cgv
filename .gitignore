@@ -21,7 +21,7 @@ target/
 *.properties
 *.xml
 *.properties
-application.propertiess
+application.properties
 
 ### NetBeans ###
 /nbproject/private/
@@ -35,3 +35,4 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/application.properties
