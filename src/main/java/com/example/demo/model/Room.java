@@ -14,20 +14,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    private int capacity;
-    private double totalArea;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int capacity;
+	private double totalArea;
 
-    @Column(length = 1000)
-    private String imgURL;
+	@Column(length = 1000)
+	private String imgURL;
 
-    @ManyToOne
-    @JoinColumn(nullable = false,name = "branch_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Branch branch;
+	@ManyToOne
+	@JoinColumn(nullable = false, name = "branch_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Branch branch;
+
+	// private Set<Seat> seats = new HashSet<Seat>(0);
 
 	public int getId() {
 		return id;
@@ -76,4 +78,5 @@ public class Room {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+
 }
