@@ -56,4 +56,8 @@ public class MovieController {
 			}
 			return movieService.getAllMovie();
 		}
+		@GetMapping("movie/{id}")
+		public MovieDTO findByID(@PathVariable int id){
+			return movieService.findById(id);
+		}
 }

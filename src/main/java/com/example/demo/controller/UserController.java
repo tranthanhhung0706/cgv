@@ -35,19 +35,19 @@ public class UserController {
 	public List<UserDTO> getAll(){
 		return userService.findAllUser();
 	}
-//	@GetMapping("/user/{id}")
-//	public User getUserById(@PathVariable int id) {
-//		User hung= userService.FindById(id);
-//		try {
-//			System.out.println(hung.getUsername());
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println("error");
-//		}
-//		
-//		return userService.FindById(id);
-//				
-//	}
+	// @GetMapping("/user/{id}")
+	// public User getUserById(@PathVariable int id) {
+	// 	User hung= userService.FindById(id);
+	// 	try {
+	// 		System.out.println(hung.getUsername());
+	// 	} catch (Exception e) {
+	// 		// TODO: handle exception
+	// 		System.out.println("error");
+	// 	}
+		
+	// 	return userService.FindById(id);
+				
+	// }
 //	@DeleteMapping("/user/{id}")
 //	public List<User> delete(@PathVariable int id) {
 //		if (userService.FindById(id).getId()!=null) {
