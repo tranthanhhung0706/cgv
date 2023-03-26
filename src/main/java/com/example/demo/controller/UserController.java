@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CustomerDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.User;
-import com.example.demo.repository.ApiResponse;
 import com.example.demo.repository.PageMeta;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.UserService;
@@ -189,4 +189,37 @@ public class UserController {
 	// }
 	// return null;
 	// }
+	// @GetMapping("/user/{id}")
+	// public User getUserById(@PathVariable int id) {
+	// 	User hung= userService.FindById(id);
+	// 	try {
+	// 		System.out.println(hung.getUsername());
+	// 	} catch (Exception e) {
+	// 		// TODO: handle exception
+	// 		System.out.println("error");
+	// 	}
+		
+	// 	return userService.FindById(id);
+				
+	// }
+//	@DeleteMapping("/user/{id}")
+//	public List<User> delete(@PathVariable int id) {
+//		if (userService.FindById(id).getId()!=null) {
+//			userService.delete(id);
+//		}
+//		return userService.findAll();
+//	}
+//	@PutMapping("/user/{id}")
+//	public User update(@RequestBody User user,@PathVariable int id) {
+//		try {
+//			if (userService.FindById(id).getId()!=null) {
+//				user.setId(id);
+//				userService.save(user);
+//			}
+//			return user;
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		return null;
+//	}
 }

@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
 import com.example.demo.model.Movie;
 import com.example.demo.model.User;
-import com.example.demo.repository.ApiResponse;
 import com.example.demo.service.MovieService;
 
 @CrossOrigin(origins = "http://localhost:3006")
@@ -142,4 +142,8 @@ public class MovieController {
 		}
 
 		
+		@GetMapping("movie/{id}")
+		public MovieDTO findByID(@PathVariable int id){
+			return movieService.findById(id);
+		}
 }

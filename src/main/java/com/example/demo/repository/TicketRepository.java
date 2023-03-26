@@ -1,14 +1,17 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.demo.model.Bill;
+import com.example.demo.model.Schedule;
 import com.example.demo.model.Ticket;
 
+public interface TicketRepository extends JpaRepository<Ticket, Integer> {
+    List<Ticket> findBySchedule(Schedule schedule);
 
+    List<Ticket> findByBill(Bill bill);
 
-@Repository
-public interface TicketRepository extends  JpaRepository<Ticket, Integer> {
-    
+    // void saveAll(List<Ticket> tickets);
 }
-

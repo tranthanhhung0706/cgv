@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ErrorResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.security.UserPrinciple;
 import com.example.demo.security.jwt.JwtResponse;
 import com.example.demo.security.jwt.JwtService;
-import com.example.demo.repository.ErrorResponse;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.service.UserService;
+import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.CustomerService;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@CrossOrigin(origins = "http://localhost:3006")
 @RestController
 public class AuthController {
 
@@ -46,35 +52,43 @@ public class AuthController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    // @PostMapping("/login")
+    // public ResponseEntity<?> login(@RequestBody User user) {
 
-        try {
+    //     try {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(),
-                            user.getPassword()));
+    //         Authentication authentication = authenticationManager.authenticate(
+    //                 new UsernamePasswordAuthenticationToken(user.getUsername(),
+    //                         user.getPassword()));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+    //         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwt = jwtService.generateTokenLogin(authentication);
+    //         String jwt = jwtService.generateTokenLogin(authentication);
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User currentUser = userService.findByUsername(user.getUsername()).get();
+    //         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    //         User currentUser = userService.findByUsername(user.getUsername()).get();
 
-            return ResponseEntity.ok(
-                    new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
-                            currentUser.getFullName()));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
-    }
+    //         return ResponseEntity.ok(
+    //                 new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
+    //                         currentUser.getFullName()));
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
+    // }
 
     // @CrossOrigin(origins = "http://localhost:3000/")
+    @Autowired
+    private AuthenticationService authenticationService;
     // @PostMapping("/login")
     // public ResponseEntity<?> login(@RequestBody User user) {
     // try {
+    // Authentication authentication = authenticationManager.authenticate(
+    // new UsernamePasswordAuthenticationToken(user.getUsername(),
+    // user.getPassword()));
+
+    // try {
+
     // Authentication authentication = authenticationManager.authenticate(
     // new UsernamePasswordAuthenticationToken(user.getUsername(),
     // user.getPassword()));
@@ -89,16 +103,36 @@ public class AuthController {
     // return ResponseEntity.ok(
     // new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
     // currentUser.getFullName()));
-    // } catch (BadCredentialsException e) {
-    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-    // .body(new ErrorResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or
-    // password."));
     // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    // .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred
-    // during login."));
+    // System.out.println(e);
     // }
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật
+    // khẩu!");
     // }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String jwt = jwtService.generateTokenLogin(authentication);
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User currentUser = userService.findByUsername(user.getUsername()).get();
+
+            return ResponseEntity.ok(
+                    new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred during login."));
+        }
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO UserDTO) {
