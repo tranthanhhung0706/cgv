@@ -51,13 +51,7 @@ public class UserDTO {
 			this.fullName = fullName;
 		}
 
-		public Set<Role> getRoles() {
-			return roles;
-		}
-
-		public void setRoles(Set<Role> roles) {
-			this.roles = roles;
-		}
+		
 
 
 		public String getPhone_number() {
@@ -83,7 +77,13 @@ public class UserDTO {
 		public void setAddress(String Address) {
 			this.Address = Address;
 		}
-		
+		public Set<Role> getRoles() {
+			return roles;
+		}
+
+		public void setRoles(Set<Role> roles) {
+			this.roles = roles;
+		}
 
 	    // constructors, getters and setters
 	    

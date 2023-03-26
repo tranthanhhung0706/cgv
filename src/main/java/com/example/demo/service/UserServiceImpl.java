@@ -56,15 +56,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updated(User user) {
 		// TODO Auto-generated method stub
-		User olduser=userRepository.getById(user.getId());
+		User olduser = userRepository.getById(user.getId());
 		System.out.println(olduser.getId());
-		User newuser=new User();
-			newuser.setId(olduser.getId());
-			newuser.setFullName(olduser.getFullName());
-			newuser.setUsername(olduser.getUsername());
-			newuser.setPassword(olduser.getPassword());
-			userRepository.save(newuser);
+		User newuser = new User();
+		newuser.setId(olduser.getId());
+		newuser.setFullName(olduser.getFullName());
+		newuser.setUsername(olduser.getUsername());
+		newuser.setPassword(olduser.getPassword());
+		userRepository.save(newuser);
 	}
+	
 
 	@Override
 	public User FindById(Integer id) {
@@ -89,9 +90,27 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+	public Optional<User> findByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public User findUserByUsername(String userName) {
+		  Optional<User> user =  userRepository.findUserByUserName(userName);
+			return user.orElse(null);
+	}
+
+	@Override
+	public void resetPassword(String username) {
+		User user = findUserByUsername(username);
+		if (user == null) {
+
+		}
+	}
+	
+	
+	
+	
 
 
     

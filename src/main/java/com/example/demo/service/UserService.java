@@ -18,6 +18,9 @@ public interface UserService extends  UserDetailsService {
 
    UserDetails loadUserByUsername(String username);
    Optional<User> findByUsername(String username);
-   
+
    List<UserDTO> findAllUser();
+   User findUserByUsername(String userName);
+
+   void resetPassword(String username);
 }

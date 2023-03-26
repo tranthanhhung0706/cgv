@@ -4,22 +4,19 @@ package com.example.demo.dto;
 import lombok.Data;
 import java.time.LocalDate;
 
-import com.example.demo.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Data
-public class CustomerDTO {
+public class StaffDTO {
 
     private int id;
-   // private UserDTO user;
-
-    
-
+    private UserDTO user;
     private String name;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthday;
     private String phone_number;
     private String address;
-
 
     public String getName() {
         return this.name;

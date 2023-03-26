@@ -15,11 +15,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-public class  SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
@@ -54,29 +56,38 @@ public class  SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://localhost:5173/" );
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.csrf().ignoringAntMatchers("/**");
-        //http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.csrf().disable()
-        //http
-        .authorizeRequests()
-                .antMatchers("/", "/login","/api/movies/showing","/api/movies/showing/search","/register","/api/movies/details").permitAll()
+                .authorizeRequests()
+                .antMatchers("/", "/login", "/api/movies/showing", "/api/movies/showing/search", "/register",
+                        "/api/movies/details", "/api/**", "/user")
+                .permitAll()
                 .antMatchers("/movie").hasRole("ADMIN")
                 .antMatchers("/").hasRole("CLIENT")
                 .anyRequest().authenticated()
                 .and()
-                //.csrf().disable();
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler()).authenticationEntryPoint(restServicesEntryPoint())
+                // .csrf().disable();
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler())
+                .authenticationEntryPoint(restServicesEntryPoint())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .cors();
-        // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-        //         .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
-        // http.sessionManagement()
-        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // http.cors();
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.cors().configurationSource(corsConfigurationSource()).and();
     }
 }
