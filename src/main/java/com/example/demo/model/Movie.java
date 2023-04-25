@@ -37,7 +37,10 @@ public class Movie {
     private String trailerURL;
     private String language;
     private String rated;
-    private int isShowing;
+	private int isShowing;
+	@Column(columnDefinition = "TEXT")
+ 	private String largeImageString;
+
 	public int getId() {
 		return id;
 	}

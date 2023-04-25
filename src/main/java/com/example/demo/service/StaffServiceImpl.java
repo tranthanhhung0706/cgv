@@ -60,7 +60,6 @@ public class StaffServiceImpl implements StaffService{
     public Page<Staff> getAllStaffsByPage(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Staff> page = staffRepository.findAll(pageable);
-
         return page;
     }
     
