@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileUploadHelper {
-	public final String UPLOAD_DIR="C:\\Users\\ADMIN\\Downloads\\demo\\demo\\src\\main\\resources\\static\\image";
+	public static final String UPLOAD_DIR=".\\src\\main\\resources\\static\\image\\";
 	public boolean uploadFile(MultipartFile multipartFile) {
 		boolean f=false;
 		try {
