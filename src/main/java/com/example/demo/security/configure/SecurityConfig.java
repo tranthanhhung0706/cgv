@@ -76,8 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login", "/api/movies/showing", "/api/movies/showing/search", "/register",
                         "/api/movies/details", "/api/**", "/user")
                 .permitAll()
-                .antMatchers("/movie").hasRole("ADMIN")
-                .antMatchers("/").hasRole("CLIENT")
+                .antMatchers("/").hasRole("ADMIN")
+                .antMatchers("/movie").hasRole("CLIENT")
                 .anyRequest().authenticated()
                 .and()
                 // .csrf().disable();

@@ -50,9 +50,5 @@ public class BranchController {
         branchService.delete(id);
         return branchService.getAllBrand();
     }
-    // @GetMapping("brand/{id}")
-    // public Branch getBranchById(@PathVariable int id){
-    //     return branchService.findById(id);
-    // }
     
 }

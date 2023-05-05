@@ -18,4 +18,6 @@ public interface RoomService {
     boolean delete(Integer id);
 
     List<Seat> getSeatList(Room room);
+
+    List<Room> findRoomByBranch(Integer branchId);
 }

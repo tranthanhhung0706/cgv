@@ -98,4 +98,10 @@ public class RoomServiceImpl implements RoomService {
         return false;
     }
 
+    @Override
+    public List<Room> findRoomByBranch(Integer branchId) {
+        return roomRepository.findRoomByBranch(branchId);
+    }
+
+    
 }

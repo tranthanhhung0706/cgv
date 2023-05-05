@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.example.demo.model.User;
 
@@ -11,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BillDTO {
-
+public class ShowTimeDTO {
     private int id;
-    private List<TicketDTO> tickets;
+    private String startTime;
 }
