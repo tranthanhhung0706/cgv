@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.CustomerDTO;
+import com.example.demo.dto.PageMeta;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.User;
-import com.example.demo.repository.PageMeta;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.UserService;
 
