@@ -36,12 +36,11 @@ public class RoomControllerApi {
     }
 
     @GetMapping(value = "/roomByBranch")
-    public ResponseEntity<Object> findRoomByBranch(@RequestParam Integer branchId)
-    {
-        List<Room> rooms = modelService.findRoomByBranch(branchId);
+    public ResponseEntity<Object> findRoomByBranch(@RequestParam Integer branchId) {
+        List<Room> rooms = roomService.findRoomByBranch(branchId);
         if (rooms == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room does not exist");
-        return ResponseEntity.ok(rooms);    
+        return ResponseEntity.ok(rooms);
     }
 
 }
