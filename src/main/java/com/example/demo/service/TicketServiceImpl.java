@@ -142,4 +142,15 @@ public class TicketServiceImpl implements TicketService {
         return dtos;
     }
 
+    @Override
+    public List<TicketDTO> findBySchedule(Schedule schedule) {
+        // TODO Auto-generated method stub
+        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        List<TicketDTO> dtos = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            dtos.add(ticketConvert.toDTO(ticket));
+        }
+        return dtos;
+    }
+
 }
