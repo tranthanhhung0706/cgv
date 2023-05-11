@@ -26,6 +26,7 @@ import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
 import com.example.demo.model.Movie;
 import com.example.demo.model.User;
+import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.MovieService;
 
 @CrossOrigin(origins = "http://localhost:3006")
@@ -33,6 +34,9 @@ import com.example.demo.service.MovieService;
 public class MovieController {
 		@Autowired
 		private MovieService movieService;
+
+		@Autowired
+		private MovieRepository movieRepository;
 
 		@Autowired
     	private ModelMapper modelMapper;
@@ -95,9 +99,21 @@ public class MovieController {
 		public ResponseEntity<Object> createMovie(@RequestBody MovieDTO2 movieDTO) {
 			Movie movie = modelMapper.map(movieDTO, Movie.class);
 			MovieDTO2 movie2 = movieService.save2(movie);
+		
 			return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully",
 			movie2));
 		}
+
+		// @PostMapping("api/movie")
+		// public ResponseEntity<Object> createMovie(@RequestBody Movie movie) {
+		// 	Movie movie2= movieRepository.save(movie);
+
+		// 	return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully",
+		// 	movie2));
+		// }
+
+
+		
 
 		@PutMapping("api/movie/{id}")
 		public ResponseEntity<Object> updateMovie(@PathVariable int id, @RequestBody MovieDTO2 movieDTO)

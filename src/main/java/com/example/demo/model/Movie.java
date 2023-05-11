@@ -20,13 +20,13 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(length = 1000)
+	@Column(length = Integer.MAX_VALUE, columnDefinition = "TEXT")
     private String smallImageURl;
     @Column(length = 500)
     private String shortDescription;
     @Column(length = 1000)
     private String longDescription;
-    @Column(length = 1000)
+    @Column(length = Integer.MAX_VALUE, columnDefinition = "TEXT")
     private String largeImageURL;
     private String director;
     private String actors;
