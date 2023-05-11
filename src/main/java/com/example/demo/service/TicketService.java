@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.dto.TicketDTO;
 import com.example.demo.model.Bill;
+import com.example.demo.model.Schedule;
 import com.example.demo.model.Ticket;
 
 public interface TicketService {
@@ -21,4 +22,5 @@ public interface TicketService {
 
     void delete(TicketDTO ticket);
 
+    List<TicketDTO> findBySchedule(Schedule schedule);
 }
