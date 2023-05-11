@@ -32,9 +32,8 @@ import com.example.demo.service.ScheduleService;
 @RequestMapping("/api")
 @RestController
 public class ScheduleController {
-    // @Autowired
-    // private ScheduleService scheduleService;
-
+    @Autowired
+    private ScheduleService scheduleService;
     @Autowired
     private ScheduleRepository scheduleRepository;
     @Autowired
@@ -44,41 +43,40 @@ public class ScheduleController {
 
     @GetMapping("/schedule")
     public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-        Schedule schedule = scheduleRepository.findById(id).orElse(null);
-        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
 
-        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-        List<String> seats = new ArrayList<>();
+        // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        // List<String> seats = new ArrayList<>();
 
-        for (Ticket ticket : tickets) {
-            seats.add(ticket.getSeat().getName());
-        }
-        // Collections.sort(seats);
-        scheduleDTO.setSeats(seats);
-        return scheduleDTO;
+        // for (Ticket ticket : tickets) {
+        // seats.add(ticket.getSeat().getName());
+        // }
+        // // Collections.sort(seats);
+        // scheduleDTO.setSeats(seats);
+        
+        return scheduleService.findById(id);
     }
+
     @GetMapping("/ScheduleFromMovie")
-    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId)
-    {
-        List<Schedule> schedules = scheduleRepository.getScheduleByMovieId(movieId);
+    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam Integer movieId) {
+        List<Schedule> schedules = scheduleRepository.getScheduleByMovieId(1);
         if (schedules == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
-        List<ShowScheduleDTO> schedulesDTOs = schedules.stream().map(
-                schedule -> modelMapper.map(schedule, ShowScheduleDTO.class)).collect(Collectors.toList());
+      List<ShowScheduleDTO> schedulesDTOs = schedules.stream().map(
+               schedule -> modelMapper.map(schedule, ShowScheduleDTO.class)).collect(Collectors.toList());
         return ResponseEntity.ok(schedulesDTOs);
     }
-    
+
     @GetMapping("/TimeFromMovieAndDate")
     public ResponseEntity<Object> getTimeFromMovieAndDate(@RequestParam int movieId, @RequestParam String startDate) {
         List<Schedule> showTimeDTObjects = scheduleRepository.getTimeByMovieIdAndDate(movieId, startDate);
         List<ShowTimeDTO> showTimeDTOs = showTimeDTObjects.stream().map(
-            data -> modelMapper.map(data, ShowTimeDTO.class)
-        ).collect(Collectors.toList());
+                data -> modelMapper.map(data, ShowTimeDTO.class)).collect(Collectors.toList());
 
-    
         if (showTimeDTOs == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time not found");
-        
+
         return ResponseEntity.ok(showTimeDTOs);
     }
 
