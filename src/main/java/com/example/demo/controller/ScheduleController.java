@@ -45,6 +45,8 @@ public class ScheduleController {
     public ScheduleDTO getSchedule(@RequestParam("id") int id) {
         // Schedule schedule = scheduleRepository.findById(id).orElse(null);
         // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
 
         // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
         // List<String> seats = new ArrayList<>();
@@ -59,8 +61,9 @@ public class ScheduleController {
     }
 
     @GetMapping("/ScheduleFromMovie")
-    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam Integer movieId) {
-        List<Schedule> schedules = scheduleRepository.getScheduleByMovieId(1);
+    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId)
+    {
+        List<Schedule> schedules = scheduleRepository.getScheduleByMovieId(movieId);
         if (schedules == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
       List<ShowScheduleDTO> schedulesDTOs = schedules.stream().map(
@@ -73,6 +76,7 @@ public class ScheduleController {
         List<Schedule> showTimeDTObjects = scheduleRepository.getTimeByMovieIdAndDate(movieId, startDate);
         List<ShowTimeDTO> showTimeDTOs = showTimeDTObjects.stream().map(
                 data -> modelMapper.map(data, ShowTimeDTO.class)).collect(Collectors.toList());
+
 
         if (showTimeDTOs == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Time not found");
