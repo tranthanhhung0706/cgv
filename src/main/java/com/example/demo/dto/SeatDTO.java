@@ -6,7 +6,15 @@ import lombok.Data;
 public class SeatDTO {
     private int id;
     private String name;
-    private int isOccupied;
+	private int isOccupied;
+	
+	
+	public SeatDTO(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+	public SeatDTO() {
+	}
 	public int getId() {
 		return id;
 	}

@@ -2,11 +2,19 @@ package com.example.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
+
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.Set;
 
 import javax.persistence.*;
+
+
 
 @Data
 @Table(name = "room")
@@ -25,9 +33,27 @@ public class Room {
 	private String imgURL;
 
 	@ManyToOne
-	@JoinColumn(nullable = false, name = "branch_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "branch_id")
+	@JsonManagedReference
 	private Branch branch;
+
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @JsonBackReference
+	private Set<Seat> seats;
+	
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	@JsonBackReference
+	private Set<Schedule> schedules;
+
+
+	public Set<Schedule> getSchedules() {
+		return this.schedules;
+	}
+
+	public void setSchedules(Set<Schedule> schedules) {
+		this.schedules = schedules;
+	}
+
 
 	// private Set<Seat> seats = new HashSet<Seat>(0);
 

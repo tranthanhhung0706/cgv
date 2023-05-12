@@ -4,7 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @Table(name = "branch")
@@ -19,7 +23,12 @@ public class Branch {
     private String imgURL;
     private String name;
     private String diaChi;
-    private String phoneNo;
+	private String phoneNo;
+	
+	@OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    @JsonBackReference
+	private Set<Room> rooms;
+
 	public int getId() {
 		return id;
 	}
