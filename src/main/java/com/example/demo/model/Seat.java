@@ -3,10 +3,16 @@ package com.example.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+
+
 
 @Data
 @Entity
@@ -17,11 +23,16 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "room_id",nullable = false)
-    private Room room;
+	private String name;
+    
+	@ManyToOne
+	@JoinColumn(name = "room_id")
+	@JsonManagedReference
+	private Room room;
+	
+
+
+
 	public int getId() {
 		return id;
 	}

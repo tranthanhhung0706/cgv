@@ -26,6 +26,7 @@ import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
 import com.example.demo.model.Movie;
 import com.example.demo.model.User;
+import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.MovieService;
 
 @CrossOrigin(origins = "http://localhost:3006")
