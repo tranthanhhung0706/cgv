@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,6 +94,16 @@ public class TicketController {
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.badRequest().body("Error get ticket by id!! " + e.getLocalizedMessage());
+        }
+    }
+
+    @GetMapping("/tickets/{userID}")
+    public ResponseEntity<?> getAllByUser(@PathVariable Integer userID) {
+        try {
+            return ResponseEntity.ok(ticketService.getAllByUser(userID));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("Error get ticket by user id !!  " + e.getLocalizedMessage());
         }
     }
 }

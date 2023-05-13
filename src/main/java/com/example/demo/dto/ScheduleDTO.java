@@ -25,12 +25,15 @@ public class ScheduleDTO {
     private List<String> seats;
 
     public ScheduleDTO(Schedule schedule) {
-        this.id = schedule.getId();
-        this.price = (int) schedule.getPrice();
-        this.startDate = schedule.getStartDate();
-        this.startTime = schedule.getStartTime();
-        this.branchName = schedule.getBranch().getName();
-        this.movieName = schedule.getMovie().getName();
+        if (schedule != null) {
+            this.id = schedule.getId();
+            this.price = (int) schedule.getPrice();
+            this.startDate = schedule.getStartDate();
+            this.startTime = schedule.getStartTime();
+            this.branchName = schedule.getBranch().getName();
+            this.movieName = schedule.getMovie().getName();
+        }
+
     }
 
     public ScheduleDTO(Schedule schedule, List<String> seats) {
