@@ -89,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<MovieDTO2> getAllMovies() {
 
 		// TODO Auto-generated method stub
-		return movieRepository.findAll().stream().map(
+		return movieRepository.findAll().stream().filter(movie -> movie.getIsShowing() == 1).map(
 				movie -> modelMapper.map(movie, MovieDTO2.class))
 				.collect(Collectors.toList());
 

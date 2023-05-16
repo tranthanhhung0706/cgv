@@ -54,8 +54,6 @@ public class ScheduleController {
     @Autowired
     private SeatRepository seatRepository;
 
-
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -74,18 +72,17 @@ public class ScheduleController {
         // }
         // // Collections.sort(seats);
         // scheduleDTO.setSeats(seats);
-        
+
         return scheduleService.findById(id);
     }
 
     @GetMapping("/ScheduleFromMovie")
-    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId)
-    {
+    public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId) {
         List<Schedule> schedules = scheduleRepository.getScheduleByMovieId(movieId);
         if (schedules == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
-      List<ShowScheduleDTO> schedulesDTOs = schedules.stream().map(
-               schedule -> modelMapper.map(schedule, ShowScheduleDTO.class)).collect(Collectors.toList());
+        List<ShowScheduleDTO> schedulesDTOs = schedules.stream().map(
+                schedule -> modelMapper.map(schedule, ShowScheduleDTO.class)).collect(Collectors.toList());
         return ResponseEntity.ok(schedulesDTOs);
     }
 
@@ -101,37 +98,36 @@ public class ScheduleController {
         return ResponseEntity.ok(showTimeDTOs);
     }
 
-
     @GetMapping("/{scheduleId}/seats")
     public ResponseEntity<Object> getSeatsFromSchedule(@PathVariable Integer scheduleId) {
-    
+
         List<SeatDTO> seatDTOs = new ArrayList<SeatDTO>(); //
         Optional<Schedule> optionalSchedule = scheduleRepository.findById(scheduleId);
-    if (optionalSchedule.isPresent()) {
-        Schedule schedule = optionalSchedule.get();
-        Room room = schedule.getRoom();
-        List<Seat> seats = seatRepository.findSeatsByRoom(room.getId());
-        if( seats.isEmpty())
-            return ResponseEntity.notFound().build();
-        List<Seat> seatIsOccupieds = seatRepository.findSeatsIsOccupiedBySchedule(scheduleId);
-        for (Seat seat : seats) {
-            SeatDTO seatDTO = new SeatDTO();
-            seatDTO.setId(seat.getId());
-            seatDTO.setName(seat.getName());
-            for (Seat seatIsOccupid : seatIsOccupieds) {
+        if (optionalSchedule.isPresent()) {
+            Schedule schedule = optionalSchedule.get();
+            Room room = schedule.getRoom();
+            List<Seat> seats = seatRepository.findSeatsByRoom(room.getId());
+            if (seats.isEmpty())
+                return ResponseEntity.notFound().build();
+            List<Seat> seatIsOccupieds = seatRepository.findSeatsIsOccupiedBySchedule(scheduleId);
+            for (Seat seat : seats) {
+                SeatDTO seatDTO = new SeatDTO();
+                seatDTO.setId(seat.getId());
+                seatDTO.setName(seat.getName());
+                for (Seat seatIsOccupid : seatIsOccupieds) {
 
-                if (seat.getId() == seatIsOccupid.getId())
-                    seatDTO.setIsOccupied(1);
-                else
-                    seatDTO.setIsOccupied(0);
+                    if (seat.getId() == seatIsOccupid.getId())
+                        seatDTO.setIsOccupied(1);
+                    else
+                        seatDTO.setIsOccupied(0);
+                }
+                seatDTOs.add(seatDTO);
             }
-            seatDTOs.add(seatDTO);
-        }
-        return ResponseEntity.ok(seatDTOs);
+            return ResponseEntity.ok(seatDTOs);
 
-    } else {
-        return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
 
 }

@@ -15,7 +15,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("SELECT s FROM Schedule s WHERE s.movie.id = :movieId ORDER BY s.startDate DESC")
     List<Schedule> getScheduleByMovieId(@Param("movieId") Integer movieId);
 
-    @Query(value = "select * from cinemaa.schedule s where start_date = :startDate and start_date <= CURDATE() and movie_id= :movieId ;", nativeQuery = true)
+    @Query(value = "select * from cinema.schedule s where start_date = :startDate and start_date <= CURDATE() and movie_id= :movieId ;", nativeQuery = true)
     List<Schedule> getTimeByMovieIdAndDate(@Param("movieId") Integer movieId,
             @Param("startDate") String startDate);
 
