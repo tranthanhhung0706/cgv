@@ -56,6 +56,5 @@ public class ScheduleDTO {
 		this.branchName = schedule.getBranch().getName();
 		this.movieName = schedule.getMovie().getName();
 		this.room = roomDto;
-		this.seats.addAll(seats);
 	}
 }
