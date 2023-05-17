@@ -29,3 +29,11 @@ spring.mail.username=<your-gmail-username>
 spring.mail.password=<your-gmail-password>
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=danhtestotp@gmail.com
+spring.mail.password=xqzcbuvinojziehc
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
