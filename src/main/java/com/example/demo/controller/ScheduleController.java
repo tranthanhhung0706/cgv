@@ -83,10 +83,10 @@ public class ScheduleController {
         return scheduleDTO;
     }
 
-    // @GetMapping("/schedule")
-    // public List<ScheduleDTO> getSchedule() {
-    // return scheduleService.getAllSchedule();
-    // }
+    @GetMapping("/schedules")
+    public List<ScheduleDTO> getSchedule() {
+        return scheduleService.getAllSchedule();
+    }
 
     @PostMapping("/schedule")
     public ScheduleDTO newSchedule(@RequestBody ScheduleDTO scheduleDTO) {
@@ -104,23 +104,23 @@ public class ScheduleController {
         scheduleService.delete(id);
     }
 
-    public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+    // public ScheduleDTO getSchedule(@RequestParam("id") int id) {
+    // // Schedule schedule = scheduleRepository.findById(id).orElse(null);
+    // // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+    // // Schedule schedule = scheduleRepository.findById(id).orElse(null);
+    // // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
 
-        // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-        // List<String> seats = new ArrayList<>();
+    // // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+    // // List<String> seats = new ArrayList<>();
 
-        // for (Ticket ticket : tickets) {
-        // seats.add(ticket.getSeat().getName());
-        // }
-        // // Collections.sort(seats);
-        // scheduleDTO.setSeats(seats);
+    // // for (Ticket ticket : tickets) {
+    // // seats.add(ticket.getSeat().getName());
+    // // }
+    // // // Collections.sort(seats);
+    // // scheduleDTO.setSeats(seats);
 
-        return scheduleService.findById(id);
-    }
+    // return scheduleService.findById(id);
+    // }
 
     @GetMapping("/ScheduleFromMovie")
     public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId) {
