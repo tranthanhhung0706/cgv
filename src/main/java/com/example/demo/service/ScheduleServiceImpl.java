@@ -62,7 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDTO save(ScheduleDTO scheduleDTO) {
         Branch branch = branchRepository.findByName(scheduleDTO.getBranchName());
-        Room room = roomRepository.findByName(scheduleDTO.getRoomName());
+        Room room = roomRepository.findByName(scheduleDTO.getRoom().getName());
         Movie movie = movieRepository.findByName(scheduleDTO.getMovieName());
         Schedule newSchedule = new Schedule();
         if (scheduleDTO.getId() == 0) {

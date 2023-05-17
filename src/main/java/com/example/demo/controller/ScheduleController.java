@@ -53,7 +53,7 @@ public class ScheduleController {
     private ScheduleRepository scheduleRepository;
     @Autowired
     private TicketRepository ticketRepository;
-    
+
     @Autowired
     private RoomRepository roomRepository;
 
@@ -63,43 +63,43 @@ public class ScheduleController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @GetMapping("/schedule")
+    public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
+        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
 
-//    @GetMapping("/schedule")
-//    public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-//        Schedule schedule = scheduleRepository.findById(id).orElse(null);
-//        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-//
-//        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-//        List<String> seats = new ArrayList<>();
-//
-//        for (Ticket ticket : tickets) {
-//            seats.add(ticket.getSeat().getName());
-//        }
-//        // Collections.sort(seats);
-//        scheduleDTO.setSeats(seats);
-//        return scheduleDTO;
-//    }
-//    
+        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        List<String> seats = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+            seats.add(ticket.getSeat().getName());
+        }
+        // Collections.sort(seats);
+        scheduleDTO.setSeats(seats);
+        return scheduleDTO;
+    }
+
     @GetMapping("/schedule")
     public List<ScheduleDTO> getSchedule() {
         return scheduleService.getAllSchedule();
     }
-    
+
     @PostMapping("/schedule")
     public ScheduleDTO newSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-    	return scheduleService.save(scheduleDTO);
+        return scheduleService.save(scheduleDTO);
     }
-    
+
     @PutMapping("/schedule/{id}")
-    public ScheduleDTO updateSchedule(@RequestBody ScheduleDTO scheduleDTO, @PathVariable int id)
-    {
-    	scheduleDTO.setId(id);
-    	return scheduleService.save(scheduleDTO);
+    public ScheduleDTO updateSchedule(@RequestBody ScheduleDTO scheduleDTO, @PathVariable int id) {
+        scheduleDTO.setId(id);
+        return scheduleService.save(scheduleDTO);
     }
-    
+
     @DeleteMapping("/schedule/{id}")
     public void deleteSchdule(@PathVariable int id) {
-    	scheduleService.delete(id);
+        scheduleService.delete(id);
+    }
+
     public ScheduleDTO getSchedule(@RequestParam("id") int id) {
         // Schedule schedule = scheduleRepository.findById(id).orElse(null);
         // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
@@ -174,11 +174,11 @@ public class ScheduleController {
 
     @GetMapping("/schedule/{idMovie}")
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie) {
-    	return scheduleService.getSchedule(idMovie);
+        return scheduleService.getSchedule(idMovie);
     }
-    
+
     @GetMapping("/schedule/{idMovie}/{idBranch}")
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie, @PathVariable int idBranch) {
-    	return scheduleService.getSchedule(idMovie, idBranch);
+        return scheduleService.getSchedule(idMovie, idBranch);
     }
 }
