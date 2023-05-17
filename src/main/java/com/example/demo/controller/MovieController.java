@@ -139,10 +139,10 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie deleted successfully", null));
 	}
 
-	@GetMapping("movie/{id}")
-	public MovieDTO findByID(@PathVariable int id) {
-		return movieService.findById(id);
-	}
+		@GetMapping("movie/{id}")
+		public MovieDTO findByID(@PathVariable int id){
+			return movieService.findById(id);
+		}
 
 	@GetMapping("api/movies/allMoviesShowing")
 	public ResponseEntity<List<Movie>> getAllMoviesShowing() {

@@ -3,6 +3,7 @@ package com.example.demo.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.example.demo.model.Branch;
 import com.example.demo.model.User;
 
 import lombok.AllArgsConstructor;
@@ -14,5 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ShowTimeDTO {
     private int id;
+    private Branch branch;
     private String startTime;
 }

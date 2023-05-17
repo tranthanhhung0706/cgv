@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.convert.BranchConVert;
 import com.example.demo.convert.BrandConvert;
+import com.example.demo.dto.BranchDTO;
 import com.example.demo.dto.BrandDTO;
 import com.example.demo.model.Branch;
 import com.example.demo.repository.BranchRepository;
@@ -16,28 +18,28 @@ public class BranchServiceImpl implements BranchService{
     @Autowired 
     private BranchRepository branchRepository;
     @Autowired
-    private BrandConvert brandConvert;
+    private BranchConVert branchConvert;
     @Override
-    public List<BrandDTO> getAllBrand() {
+    public List<BranchDTO> getAllBrand() {
         List<Branch> list=branchRepository.findAll();
-	List<BrandDTO> listBrandDTOs=new ArrayList<>();
+	List<BranchDTO> listBrandDTOs=new ArrayList<>();
 	for(int i=0;i<list.size();i++) {
-		listBrandDTOs.add(brandConvert.toDto(list.get(i)));
+		listBrandDTOs.add(branchConvert.toDTO(list.get(i)));
 	}
         // TODO Auto-generated method stub
         return listBrandDTOs;
     }
     @Override
-    public void save(BrandDTO brandDTO) {
+    public void save(BranchDTO brandDTO) {
         // TODO Auto-generated method stub
-        Branch branch=brandConvert.toEntity(brandDTO);
+        Branch branch=branchConvert.toEntity(brandDTO);
         branchRepository.save(branch);
     }
     @Override
-    public void update(BrandDTO brandDTO) {
+    public void update(BranchDTO brandDTO) {
         // TODO Auto-generated method stub
         Branch oldbrand=branchRepository.getById(brandDTO.getId());
-	    Branch newbrand=brandConvert.toEntity2(brandDTO, oldbrand);
+	    Branch newbrand=branchConvert.toEntity(brandDTO, oldbrand);
 	    branchRepository.save(newbrand);
     }
     @Override
@@ -46,11 +48,39 @@ public class BranchServiceImpl implements BranchService{
         branchRepository.deleteById(id);
     }
     @Override
-    public BrandDTO findById(Integer id) {
+    public BranchDTO findById(Integer id) {
         // TODO Auto-generated method stub
         Branch branch=new Branch();
         branch=branchRepository.getById(id);
-        return brandConvert.toDto(branch);
+        return branchConvert.toDTO(branch);
     }
+    @Override
+    public List<BranchDTO> getAddressBrand(){
+    	List<Branch> list = branchRepository.findAll();
+    	List<BranchDTO> listResult = new ArrayList<BranchDTO>();
+    	for (Branch branch : list) {
+    		boolean check = false;
+			for (BranchDTO branchDTO : listResult) {
+				if(branchDTO.getDiaChi().equals(branch.getDiaChi()))
+				{
+					check = true;
+					break;
+				}
+			}
+			if(!check)
+				listResult.add(branchConvert.toDTO(branch));
+		}
+    	return listResult;
+    }
+	@Override
+	public List<BranchDTO> getAgency(String address) {
+		List<Branch> list = branchRepository.findAll();
+    	List<BranchDTO> listResult = new ArrayList<BranchDTO>();
+    	for (Branch branch : list) {
+    		if(branch.getDiaChi().equals(address))
+				listResult.add(branchConvert.toDTO(branch));
+		}
+    	return listResult;
+	}
     
 }

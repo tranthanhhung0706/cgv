@@ -15,4 +15,16 @@ public class BillDTO {
 
     private int id;
     private List<TicketDTO> tickets;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public List<TicketDTO> getTickets() {
+		return tickets;
+	}
+	public void setTickets(List<TicketDTO> tickets) {
+		this.tickets = tickets;
+	}
 }
