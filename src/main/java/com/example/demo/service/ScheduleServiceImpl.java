@@ -6,11 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.RoomDTO;
 import com.example.demo.dto.ScheduleDTO;
 import com.example.demo.dto.TicketDTO;
 import com.example.demo.model.Schedule;
-import com.example.demo.model.Ticket;
 import com.example.demo.repository.ScheduleRepository;
 
 @Service
