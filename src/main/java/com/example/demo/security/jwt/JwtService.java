@@ -15,7 +15,7 @@ import java.util.Date;
 @Service
 public class JwtService {
     private static final String SECRET_KEY = "123456789";
-    private static final long EXPIRE_TIME = 86400000000L;
+    private static final long EXPIRE_TIME = 3600000L;
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class.getName());
 
     public String generateTokenLogin(Authentication authentication) {
@@ -24,7 +24,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + EXPIRE_TIME * 1000))
+                .setExpiration(new Date((new Date()).getTime() + EXPIRE_TIME * 100000 ))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }

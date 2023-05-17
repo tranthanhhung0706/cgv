@@ -1,12 +1,23 @@
 package com.example.demo.security.jwt;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import com.example.demo.model.Role;
+
 public class JwtResponse {
     private Integer id;
     private String accessToken;
     private String tokenType = "Bearer";
     private String username;
     private String name;
+    private String[] roles;
 
+
+   
 
     public JwtResponse(String accessToken, Integer id, String username, String name) {
         this.accessToken = accessToken;
@@ -14,6 +25,17 @@ public class JwtResponse {
         this.name = name;
         this.id = id;
     }
+
+    public JwtResponse(String accessToken, Integer id, String username, String name,
+    String[] roles) {
+        this.accessToken = accessToken;
+        this.username = username;
+        this.name = name;
+        this.id = id;
+        this.roles = roles;
+    }
+    
+
 
     public String getName() {
         return name;
@@ -55,5 +77,12 @@ public class JwtResponse {
         this.username = username;
     }
 
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
 
 }

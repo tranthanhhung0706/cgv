@@ -2,13 +2,20 @@ package com.example.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import lombok.NoArgsConstructor;
+
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+
 
 @Data
 @Table(name = "schedule")
@@ -24,17 +31,19 @@ public class Schedule {
     private double price;
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "movie_id", nullable = false)
+	@JoinColumn(name = "movie_id")
+	@JsonManagedReference
     private Movie movie;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "branch_id", nullable = false)
+	@JoinColumn(name = "branch_id")
+	@JsonManagedReference
     private Branch branch;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "room_id", nullable = false)
+	@JoinColumn(name = "room_id")
+	@JsonManagedReference
     private Room room;
 
 	public int getId() {

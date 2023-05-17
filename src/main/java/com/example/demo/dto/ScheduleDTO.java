@@ -26,8 +26,7 @@ public class ScheduleDTO {
     private LocalTime startTime;
     private String branchName;
     private String movieName;
-    private String roomName;
-    private int roomId;
+    private RoomDTO room;
     private List<String> seats;
     
     
@@ -55,8 +54,17 @@ public class ScheduleDTO {
         this.startTime = schedule.getStartTime();
         this.branchName = schedule.getBranch().getName();
         this.movieName = schedule.getMovie().getName();
-        this.roomName = schedule.getRoom().getName();
-        this.roomId = schedule.getRoom().getId();
+        this.seats.addAll(seats);
+    }
+
+    public ScheduleDTO(Schedule schedule, RoomDTO roomDto) {
+        this.id = schedule.getId();
+        this.price = (int) schedule.getPrice();
+        this.startDate = schedule.getStartDate();
+        this.startTime = schedule.getStartTime();
+        this.branchName = schedule.getBranch().getName();
+        this.movieName = schedule.getMovie().getName();
+        this.room = roomDto;
         this.seats.addAll(seats);
     }
 

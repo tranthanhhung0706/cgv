@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.repository.PageMeta;
-
 public class ApiResponse {
 	private int status;
 	private String message;

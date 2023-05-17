@@ -1,10 +1,16 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.RoomDTO;
 import com.example.demo.model.Room;
 import com.example.demo.model.Seat;
 import com.example.demo.repository.RoomRepository;
@@ -30,9 +36,28 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room findById(Integer id) {
+    public RoomDTO findById(Integer id) {
         // TODO Auto-generated method stub
-        return roomRepository.findById(id).orElse(null);
+        Room room = roomRepository.findById(id).orElse(null);
+        RoomDTO roomDTO = new RoomDTO(room);
+        Map<Integer, String> seats = new HashMap<>();
+        for (Seat seat : seatRepository.findAllByRoom(room)) {
+            seats.put(seat.getId(), seat.getName());
+        }
+        roomDTO.setSeatList(sortByValue(seats));
+        return roomDTO;
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 
     @Override
@@ -73,4 +98,10 @@ public class RoomServiceImpl implements RoomService {
         return false;
     }
 
+    @Override
+    public List<Room> findRoomByBranch(Integer branchId) {
+        return roomRepository.findRoomByBranch(branchId);
+    }
+
+    
 }

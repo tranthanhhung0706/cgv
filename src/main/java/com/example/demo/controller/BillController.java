@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,7 @@ public class BillController {
     BillService billService;
 
     @GetMapping("/bill")
-    public ResponseEntity<?> getBill(@RequestParam int id) {
+    public ResponseEntity<?> getBill(@RequestParam int id,@RequestParam int t) {
         try {
             // add create date to billdto
             BillDTO response = billService.findById(id);

@@ -48,6 +48,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void save(TicketDTO ticketDTO) {
         // TODO Auto-generated method stub
+        ticketDTO.setQrImageUrl(createQRUrl(ticketDTO.getBillId() + "-" + ticketDTO.getSeatName()));
+
         Ticket ticket = ticketConvert.toModel(ticketDTO);
         ticket.setBill(billRepository.findById(ticketDTO.getBillId()).orElse(null));
         Schedule sche = scheduleRepository.findById(ticketDTO.getScheduleId()).orElse(null);
@@ -72,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> tickets = new ArrayList<>();
         for (TicketDTO ticketDTO : ticketDTOs) {
             // check ticketId is instance??
-
+            ticketDTO.setQrImageUrl(createQRUrl(ticketDTO.getBillId() + "-" + ticketDTO.getSeatName()));
             //
             Ticket ticket = ticketConvert.toModel(ticketDTO);
             ticket.setBill(billRepository.findById(ticketDTO.getBillId()).orElse(null));
@@ -95,6 +97,14 @@ public class TicketServiceImpl implements TicketService {
             throw e;
             // return null;
         }
+    }
+
+    public String createQRUrl(String ticketID) {
+        String url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=";
+
+        url += ticketID;
+
+        return url;
     }
 
     @Override
@@ -140,6 +150,28 @@ public class TicketServiceImpl implements TicketService {
             dtos.add(ticketConvert.toDTO(ticket));
         }
         return dtos;
+    }
+
+    @Override
+    public List<TicketDTO> findBySchedule(Schedule schedule) {
+        // TODO Auto-generated method stub
+        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        List<TicketDTO> dtos = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            dtos.add(ticketConvert.toDTO(ticket));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<TicketDTO> getAllByUser(Integer userID) {
+        // TODO Auto-generated method stub
+        List<Ticket> tickets = ticketRepository.getAllByUser(userID);
+        List<TicketDTO> ticketDTOs = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            ticketDTOs.add(ticketConvert.toDTO(ticket));
+        }
+        return ticketDTOs;
     }
 
 }

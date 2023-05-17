@@ -5,7 +5,7 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import com.example.demo.security.UserPrinciple;
+
 import com.example.demo.security.jwt.JwtResponse;
 import com.example.demo.security.jwt.JwtService;
 import com.example.demo.repository.RoleRepository;
@@ -13,6 +13,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.CustomerService;
 
+import java.io.Console;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.Set;
 
@@ -23,18 +24,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@CrossOrigin(origins = "http://localhost:3006")
+
 @RestController
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
@@ -52,64 +56,6 @@ public class AuthController {
     @Autowired
     private CustomerService customerService;
 
-    // @PostMapping("/login")
-    // public ResponseEntity<?> login(@RequestBody User user) {
-
-    //     try {
-
-    //         Authentication authentication = authenticationManager.authenticate(
-    //                 new UsernamePasswordAuthenticationToken(user.getUsername(),
-    //                         user.getPassword()));
-
-    //         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    //         String jwt = jwtService.generateTokenLogin(authentication);
-
-    //         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    //         User currentUser = userService.findByUsername(user.getUsername()).get();
-
-    //         return ResponseEntity.ok(
-    //                 new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
-    //                         currentUser.getFullName()));
-    //     } catch (Exception e) {
-    //         System.out.println(e);
-    //     }
-    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
-    // }
-
-    // @CrossOrigin(origins = "http://localhost:3000/")
-    @Autowired
-    private AuthenticationService authenticationService;
-    // @PostMapping("/login")
-    // public ResponseEntity<?> login(@RequestBody User user) {
-    // try {
-    // Authentication authentication = authenticationManager.authenticate(
-    // new UsernamePasswordAuthenticationToken(user.getUsername(),
-    // user.getPassword()));
-
-    // try {
-
-    // Authentication authentication = authenticationManager.authenticate(
-    // new UsernamePasswordAuthenticationToken(user.getUsername(),
-    // user.getPassword()));
-
-    // SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    // String jwt = jwtService.generateTokenLogin(authentication);
-
-    // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    // User currentUser = userService.findByUsername(user.getUsername()).get();
-
-    // return ResponseEntity.ok(
-    // new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
-    // currentUser.getFullName()));
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật
-    // khẩu!");
-    // }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         try {
@@ -121,10 +67,13 @@ public class AuthController {
             String jwt = jwtService.generateTokenLogin(authentication);
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User currentUser = userService.findByUsername(user.getUsername()).get();
-
+            User currentUser = userService.findUserByUsername(user.getUsername());
+            System.out.println(userDetails.getAuthorities());
+            String[] roles = userDetails.getAuthorities().stream()
+                                    .map(GrantedAuthority::getAuthority)
+                                    .toArray(String[]::new);
             return ResponseEntity.ok(
-                    new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
+                    new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName(),roles));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ErrorResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password."));

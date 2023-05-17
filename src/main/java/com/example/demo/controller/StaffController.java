@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.PageMeta;
 import com.example.demo.dto.StaffDTO;
 import com.example.demo.model.Staff;
-import com.example.demo.repository.PageMeta;
 import com.example.demo.service.StaffService;
 
 @RestController
