@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.BranchDTO;
 import com.example.demo.dto.BrandDTO;
 import com.example.demo.model.Branch;
 import com.example.demo.service.BranchService;
@@ -22,23 +23,23 @@ public class BranchController {
     private BranchService branchService;
 
     @GetMapping("brand")
-    public List<BrandDTO> getAll(){
+    public List<BranchDTO> getAll(){
         return branchService.getAllBrand();
     }
     @GetMapping("brand/{id}")
-    public BrandDTO getBrandById(@PathVariable int id){
+    public BranchDTO getBrandById(@PathVariable int id){
         return branchService.findById(id);
     }
     @PostMapping("brand")
-    public List<BrandDTO> save(@RequestBody BrandDTO brandDTO){
-        branchService.save(brandDTO);
+    public List<BranchDTO> save(@RequestBody BranchDTO branchDTO){
+        branchService.save(branchDTO);
         return branchService.getAllBrand();
     }
     @PutMapping(value="brand/{id}")
-    public List<BrandDTO> update(@RequestBody BrandDTO brandDTO,@PathVariable int id){
+    public List<BranchDTO> update(@RequestBody BranchDTO branchDTO,@PathVariable("id") Integer id){
             try {
-                brandDTO.setId(id);
-                branchService.update(brandDTO);
+                branchDTO.setId(id);
+                branchService.update(branchDTO);
                 return branchService.getAllBrand();
             } catch (Exception e) {
                 // TODO: handle exception
@@ -46,13 +47,18 @@ public class BranchController {
             return null;
     }
     @DeleteMapping("brand/{id}")
-    public List<BrandDTO> delete(@PathVariable int id){
+    public List<BranchDTO> delete(@PathVariable("id") Integer id){
         branchService.delete(id);
         return branchService.getAllBrand();
     }
-    // @GetMapping("brand/{id}")
-    // public Branch getBranchById(@PathVariable int id){
-    //     return branchService.findById(id);
-    // }
+     @GetMapping("branch/address")
+     public List<BranchDTO> getAddress(){
+         return branchService.getAddressBrand();
+     }
+     
+     @GetMapping("branch/{address}")
+     public List<BranchDTO> getAgency(@PathVariable("address") String address){
+    	 return branchService.getAgency(address);
+     }
     
 }

@@ -18,7 +18,6 @@ public interface MovieService {
 	void delete(Integer id);
 	MovieDTO findById(Integer id);
 
-
 	MovieDTO2 save2(Movie movie);
 
 	void deleteMovie(Movie movie);

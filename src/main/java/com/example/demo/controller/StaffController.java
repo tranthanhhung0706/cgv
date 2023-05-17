@@ -2,14 +2,9 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-import javax.xml.ws.Response;
-
-import org.hibernate.engine.transaction.jta.platform.internal.ResinJtaPlatform;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,11 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.StaffDTO;
-import com.example.demo.model.Movie;
 import com.example.demo.model.Staff;
 import com.example.demo.repository.PageMeta;
 import com.example.demo.service.StaffService;
-import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/api/")
