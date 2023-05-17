@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.example.demo.model.User;
 
@@ -14,5 +15,6 @@ import lombok.NoArgsConstructor;
 public class ShowScheduleDTO {
     private int id;
     private LocalDate startDate;
+    private LocalTime startTime;
     private BranchDTO branch;
 }
