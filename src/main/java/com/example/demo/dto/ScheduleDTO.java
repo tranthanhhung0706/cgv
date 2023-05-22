@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ScheduleDTO {
 	private String branchName;
 	private String movieName;
 	private RoomDTO room;
-	private List<String> seats;
+	private List<String> seats = new ArrayList<>();
 
 	public ScheduleDTO(Schedule schedule) {
 		if (schedule != null) {
