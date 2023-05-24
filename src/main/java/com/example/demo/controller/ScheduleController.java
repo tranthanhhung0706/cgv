@@ -3,9 +3,12 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.websocket.server.PathParam;
@@ -69,7 +72,15 @@ public class ScheduleController {
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
         if (schedule.getRoom() != null) {
-            scheduleDTO = new ScheduleDTO(schedule, new RoomDTO(schedule.getRoom()));
+            RoomDTO roomDTO = new RoomDTO(schedule.getRoom());
+            List<Seat> seatFromRoom = seatRepository.findSeatsByRoom(roomDTO.getId());
+            Map<Integer, String> seatMap = new TreeMap<>();
+            for (Seat seat : seatFromRoom) {
+                seatMap.put(seat.getId(), seat.getName());
+            }
+            
+            roomDTO.setSeatList(seatMap);
+            scheduleDTO = new ScheduleDTO(schedule, roomDTO);
         }
 
         List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
@@ -78,6 +89,7 @@ public class ScheduleController {
         for (Ticket ticket : tickets) {
             seats.add(ticket.getSeat().getName());
         }
+
         // Collections.sort(seats);
         //scheduleDTO.setSeats(seats);
         return scheduleDTO;

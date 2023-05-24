@@ -12,9 +12,10 @@ import org.slf4j.LoggerFactory;
 
 @Component
 public class ScheduleConvert {
-	private org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduleConvert.class);
+    private org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduleConvert.class);
+
     public ScheduleDTO toDTO(Schedule sche) {
-    	//logger.info("Sppp");
+        logger.info("Sppp");
         ScheduleDTO scheDTO = new ScheduleDTO(sche);
         return scheDTO;
     }
@@ -23,22 +24,20 @@ public class ScheduleConvert {
         ScheduleDTO scheDTO = new ScheduleDTO(sche, seats);
         return scheDTO;
     }
-    
-    public Schedule toEntity(ScheduleDTO sDto)
-    {
-    	Schedule sche = new Schedule();
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    	sche.setPrice(sDto.getPrice());
-    	sche.setStartDate(LocalDate.parse(sDto.getStartDate()));
-    	sche.setStartTime(LocalTime.parse(sDto.getStartTime()));
-    	return sche;
+
+    public Schedule toEntity(ScheduleDTO sDto) {
+        Schedule sche = new Schedule();
+        // System.out.println(sDto.getPrice());
+        sche.setPrice(sDto.getPrice());
+        sche.setStartDate(sDto.getStartDate());
+        sche.setStartTime(sDto.getStartTime());
+        return sche;
     }
-    
-    public Schedule toEntity(ScheduleDTO sDto, Schedule sche)
-    {
-    	sche.setPrice(sDto.getPrice());
-    	sche.setStartDate(LocalDate.parse(sDto.getStartDate()));
-    	sche.setStartTime(LocalTime.parse(sDto.getStartTime()));
-    	return sche;
+
+    public Schedule toEntity(ScheduleDTO sDto, Schedule sche) {
+        sche.setPrice(sDto.getPrice());
+        sche.setStartDate(sDto.getStartDate());
+        sche.setStartTime(sDto.getStartTime());
+        return sche;
     }
 }
