@@ -9,13 +9,17 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
+import com.example.demo.dto.PictureMovieDTO;
 import com.example.demo.dto.ScheduleDTO;
 import com.example.demo.model.Movie;
+import com.example.demo.model.PictureMovie;
 import com.example.demo.model.Schedule;
 @Component
 public class MovieConvert {
 		@Autowired
 		public ScheduleConvert scheduleConvert;
+		@Autowired
+		public PictureMovieConVert pictureMovieConVert;
 	
 		public MovieDTO toDto(Movie entity) {
 			MovieDTO movieDTO=new MovieDTO();
@@ -24,15 +28,19 @@ public class MovieConvert {
 			movieDTO.setLargeImageURL(entity.getLargeImageURL());
 			movieDTO.setDate(entity.getReleaseDate().toString());
 			movieDTO.setCatogery(entity.getCategories());
-			movieDTO.setDescription(entity.getShortDescription());
+			movieDTO.setShortDescription(entity.getShortDescription());
+			movieDTO.setLongDescription(entity.getLongDescription());
 			movieDTO.setActors(entity.getActors());
 			movieDTO.setDuration(entity.getDuration());
 			movieDTO.setSmallImageURl(entity.getSmallImageURl());
-			List<ScheduleDTO> list = new ArrayList<ScheduleDTO>();
-			for (Schedule schedule : entity.getSchedules()) {
-				list.add(scheduleConvert.toDTO(schedule));
-			}
-			movieDTO.setlScheduleDTOs(list);
+			List<PictureMovieDTO> listPictureMovies = new ArrayList<PictureMovieDTO>();
+			List<ScheduleDTO> lisScheduleDTOs = new ArrayList<ScheduleDTO>();
+			for(PictureMovie pictureMovie: entity.getPictureMovies())
+				listPictureMovies.add(pictureMovieConVert.toDTO(pictureMovie));
+			for(Schedule schedule: entity.getSchedules())
+				lisScheduleDTOs.add(scheduleConvert.toDTO(schedule));
+			movieDTO.setlPictureMovieDTOs(listPictureMovies);
+			movieDTO.setlScheduleDTOs(lisScheduleDTOs);
 			return movieDTO;
 		}
 		
@@ -43,7 +51,8 @@ public class MovieConvert {
 			movie.setLargeImageURL(movieDTO.getLargeImageURL());
 			movie.setReleaseDate(LocalDate.parse(movieDTO.getDate()));
 			movie.setCategories(movieDTO.getCatogery());
-			movie.setShortDescription(movieDTO.getDescription());
+			movie.setShortDescription(movieDTO.getShortDescription());
+			movie.setLongDescription(movieDTO.getLongDescription());
 			return movie;
 		}
 		public Movie toEntity2(MovieDTO movieDTO,Movie movie) {
@@ -52,7 +61,8 @@ public class MovieConvert {
 			movie.setLargeImageURL(movieDTO.getLargeImageURL());
 			movie.setReleaseDate(LocalDate.parse(movieDTO.getDate()));
 			movie.setCategories(movieDTO.getCatogery());
-			movie.setShortDescription(movieDTO.getDescription());
+			movie.setShortDescription(movieDTO.getShortDescription());
+			movie.setLongDescription(movieDTO.getLongDescription());
 			return movie;
 		}
 }

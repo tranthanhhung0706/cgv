@@ -13,14 +13,14 @@ public class RoomDTO {
     private int capacity;
     private double totalArea;
     private String imgURL;
-    private Branch branch;
+    private BranchDTO branch;
     private Map<Integer, String> seatList;
 
     public RoomDTO() {
 
     }
 
-    public RoomDTO(int id, String name, int capacity, double totalArea, String imgURL, Branch branch,
+    public RoomDTO(int id, String name, int capacity, double totalArea, String imgURL, BranchDTO branch,
             Map<Integer, String> seatList) {
         this.id = id;
         this.capacity = capacity;
@@ -37,7 +37,7 @@ public class RoomDTO {
         this.name = room.getName();
         this.totalArea = room.getTotalArea();
         this.imgURL = room.getImgURL();
-        this.branch = room.getBranch();
+//        this.branch = room.getBranch();
     }
 
     public int getId() {
@@ -80,11 +80,11 @@ public class RoomDTO {
         this.imgURL = imgURL;
     }
 
-    public Branch getBranch() {
+    public BranchDTO getBranch() {
         return this.branch;
     }
 
-    public void setBranch(Branch branch) {
+    public void setBranch(BranchDTO branch) {
         this.branch = branch;
     }
 

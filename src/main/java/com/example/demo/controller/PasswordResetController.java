@@ -42,14 +42,9 @@ public class PasswordResetController {
      return ResponseEntity.ok( new ApiResponse(HttpStatus.OK.value(),"Reset password successfully", user));
   }
 
-  private String generateOTP() {
-   
-    int otp = new Random().nextInt(900000) + 100000;
 
-    return String.valueOf(otp);
-  }
-
-  private void sendEmail(String email, String otpCode) {
+private void sendEmail(String email, String otpCode) {
+	// TODO Auto-generated method stub
     // create email message
     SimpleMailMessage message = new SimpleMailMessage();
     message.setFrom("your-email@gmail.com");
@@ -58,6 +53,24 @@ public class PasswordResetController {
     message.setText("Your OTP code for resetting your password is: " + otpCode);
 
     mailSender.send(message);
+}
+
+
+private String generateOTP() {
+   
+    int otp = new Random().nextInt(900000) + 100000;
+
+    return String.valueOf(otp);
   }
+
+	/*
+	 * private void sendEmail(String email, String otpCode) { // create email
+	 * message SimpleMailMessage message = new SimpleMailMessage();
+	 * message.setFrom("your-email@gmail.com"); message.setTo(email);
+	 * message.setSubject("Password reset OTP code");
+	 * message.setText("Your OTP code for resetting your password is: " + otpCode);
+	 * 
+	 * mailSender.send(message); }
+	 */
 
 }

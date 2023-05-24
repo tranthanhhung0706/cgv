@@ -79,7 +79,7 @@ public class ScheduleController {
             seats.add(ticket.getSeat().getName());
         }
         // Collections.sort(seats);
-        scheduleDTO.setSeats(seats);
+        //scheduleDTO.setSeats(seats);
         return scheduleDTO;
     }
 
@@ -103,24 +103,6 @@ public class ScheduleController {
     public void deleteSchdule(@PathVariable int id) {
         scheduleService.delete(id);
     }
-
-    // public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-    // // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-    // // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-    // // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-    // // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-
-    // // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-    // // List<String> seats = new ArrayList<>();
-
-    // // for (Ticket ticket : tickets) {
-    // // seats.add(ticket.getSeat().getName());
-    // // }
-    // // // Collections.sort(seats);
-    // // scheduleDTO.setSeats(seats);
-
-    // return scheduleService.findById(id);
-    // }
 
     @GetMapping("/ScheduleFromMovie")
     public ResponseEntity<Object> getScheduleFromMovie(@RequestParam int movieId) {
@@ -176,7 +158,7 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/schedule/{idMovie}")
+    @GetMapping("/schedules/{idMovie}")
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie) {
         return scheduleService.getSchedule(idMovie);
     }
