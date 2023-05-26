@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+Spackage com.example.demo.controller;
 
 import java.util.Random;
 

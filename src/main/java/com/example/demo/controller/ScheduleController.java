@@ -100,21 +100,9 @@ public class ScheduleController {
     @DeleteMapping("/schedule/{id}")
     public void deleteSchdule(@PathVariable int id) {
     	scheduleService.delete(id);
+    }
+    @GetMapping("/schedule/{id}")
     public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-        // Schedule schedule = scheduleRepository.findById(id).orElse(null);
-        // ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-
-        // List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-        // List<String> seats = new ArrayList<>();
-
-        // for (Ticket ticket : tickets) {
-        // seats.add(ticket.getSeat().getName());
-        // }
-        // // Collections.sort(seats);
-        // scheduleDTO.setSeats(seats);
-
         return scheduleService.findById(id);
     }
 

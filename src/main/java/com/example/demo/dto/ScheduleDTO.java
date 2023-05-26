@@ -28,6 +28,8 @@ public class ScheduleDTO {
     private String movieName;
     private RoomDTO room;
     private List<String> seats;
+	private String roomName;
+	private int roomId;
     
     
 
