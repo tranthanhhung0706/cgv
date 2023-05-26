@@ -2,28 +2,25 @@ package com.example.demo.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-
 import com.example.demo.model.Schedule;
-import com.example.demo.service.ScheduleServiceImpl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 
 public class ScheduleDTO {
 	//private org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduleDTO.class);
     private int id;
     private double price;
-    private LocalDate startDate;
-    private LocalTime startTime;
+    private String startDate;
+    private String startTime;
     private String branchName;
     private String movieName;
     private RoomDTO room;
@@ -39,36 +36,36 @@ public class ScheduleDTO {
 	}
 
 	public ScheduleDTO(Schedule schedule) {
-        this.id = schedule.getId();
-        this.price = schedule.getPrice();
-        this.startDate = schedule.getStartDate();
-        this.startTime = schedule.getStartTime();
-        this.branchName = schedule.getBranch().getName();
-        this.movieName = schedule.getMovie().getName();
-        this.roomName = schedule.getRoom().getName();
-        this.roomId = schedule.getRoom().getId();
-    }
+		if (schedule != null) {
+			this.id = schedule.getId();
+			this.price = (int) schedule.getPrice();
+			this.startDate = schedule.getStartDate().toString();
+			this.startTime = schedule.getStartTime().toString();
+			this.branchName = schedule.getBranch().getName();
+			this.movieName = schedule.getMovie().getName();
+		}
 
-    public ScheduleDTO(Schedule schedule, List<String> seats) {
-        this.id = schedule.getId();
-        this.price = schedule.getPrice();
-        this.startDate = schedule.getStartDate();
-        this.startTime = schedule.getStartTime();
-        this.branchName = schedule.getBranch().getName();
-        this.movieName = schedule.getMovie().getName();
-        this.seats.addAll(seats);
-    }
+	}
 
-    public ScheduleDTO(Schedule schedule, RoomDTO roomDto) {
-        this.id = schedule.getId();
-        this.price = (int) schedule.getPrice();
-        this.startDate = schedule.getStartDate();
-        this.startTime = schedule.getStartTime();
-        this.branchName = schedule.getBranch().getName();
-        this.movieName = schedule.getMovie().getName();
-        this.room = roomDto;
-        this.seats.addAll(seats);
-    }
+	public ScheduleDTO(Schedule schedule, List<String> seats) {
+		this.id = schedule.getId();
+		this.price = (int) schedule.getPrice();
+		this.startDate = schedule.getStartDate().toString();
+		this.startTime = schedule.getStartTime().toString();
+		this.branchName = schedule.getBranch().getName();
+		this.movieName = schedule.getMovie().getName();
+		//this.seats.addAll(seats);
+	}
+
+	public ScheduleDTO(Schedule schedule, RoomDTO roomDto) {
+		this.id = schedule.getId();
+		this.price = (int) schedule.getPrice();
+		this.startDate = schedule.getStartDate().toString();
+		this.startTime = schedule.getStartTime().toString();
+		this.branchName = schedule.getBranch().getName();
+		this.movieName = schedule.getMovie().getName();
+		//this.room = roomDto;
+	}
 
 	public int getId() {
 		return id;
@@ -82,24 +79,24 @@ public class ScheduleDTO {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
 	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+		this.startDate = startDate.toString();
 	}
 
-	public LocalTime getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
 	public void setStartTime(LocalTime startTime) {
-		this.startTime = startTime;
+		this.startTime = startTime.toString();
 	}
 
 	public String getBranchName() {
@@ -118,27 +115,14 @@ public class ScheduleDTO {
 		this.movieName = movieName;
 	}
 
-	public String getRoomName() {
-		return roomName;
-	}
-
-	public void setRoomName(String roomName) {
-		this.roomName = roomName;
-	}
-
-	public int getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(int roomId) {
-		this.roomId = roomId;
-	}
-
-	public List<String> getSeats() {
-		return seats;
-	}
-
-	public void setSeats(List<String> seats) {
-		this.seats = seats;
-	}
+	/*
+	 * public RoomDTO getRoom() { return room; }
+	 * 
+	 * public void setRoom(RoomDTO room) { this.room = room; }
+	 * 
+	 * public List<String> getSeats() { return seats; }
+	 * 
+	 * public void setSeats(List<String> seats) { this.seats = seats; }
+	 */
+	
 }

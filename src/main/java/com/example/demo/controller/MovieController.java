@@ -95,8 +95,7 @@ public class MovieController {
 	public ResponseEntity<Object> createMovie(@RequestBody MovieDTO2 movieDTO) {
 		Movie movie = modelMapper.map(movieDTO, Movie.class);
 		MovieDTO2 movie2 = movieService.save2(movie);
-		return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully",
-				movie2));
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully", movie2));
 	}
 
 	@PutMapping("api/movie/{id}")
@@ -123,8 +122,7 @@ public class MovieController {
 		movieExisting.setIsShowing(movieDTO.getIsShowing());
 
 		MovieDTO2 movie = movieService.save2(movieExisting);
-		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie updated successfully",
-				movie));
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie updated successfully", movie));
 
 	}
 
@@ -139,10 +137,10 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie deleted successfully", null));
 	}
 
-		@GetMapping("movie/{id}")
-		public MovieDTO findByID(@PathVariable int id){
-			return movieService.findById(id);
-		}
+	@GetMapping("movie/{id}")
+	public MovieDTO findByID(@PathVariable int id) {
+		return movieService.findById(id);
+	}
 
 	@GetMapping("api/movies/allMoviesShowing")
 	public ResponseEntity<List<Movie>> getAllMoviesShowing() {

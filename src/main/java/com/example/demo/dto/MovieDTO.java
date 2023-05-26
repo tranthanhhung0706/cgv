@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+import com.example.demo.model.PictureMovie;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +22,19 @@ public class MovieDTO {
 	private String catogery;
 	private int duration;
 	private String actors;
-	private String Description;
+	private String longDescription;
+	private String shortDescription;
 	private String largeImageURL;
 	private List<ScheduleDTO> lScheduleDTOs;
+	private List<PictureMovieDTO> lPictureMovieDTOs;
+
+	public List<PictureMovieDTO> getlPictureMovieDTOs() {
+		return lPictureMovieDTOs;
+	}
+
+	public void setlPictureMovieDTOs(List<PictureMovieDTO> lPictureMovieDTOs) {
+		this.lPictureMovieDTOs = lPictureMovieDTOs;
+	}
 
 	public List<ScheduleDTO> getlScheduleDTOs() {
 		return lScheduleDTOs;
@@ -31,13 +43,20 @@ public class MovieDTO {
 	public void setlScheduleDTOs(List<ScheduleDTO> lScheduleDTOs) {
 		this.lScheduleDTOs = lScheduleDTOs;
 	}
-
-	public String getDescription() {
-		return Description;
+	public String getLongDescription() {
+		return longDescription;
 	}
 
-	public void setDescription(String description) {
-		Description = description;
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 
 	public Integer getId() {

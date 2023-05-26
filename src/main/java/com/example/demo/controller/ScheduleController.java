@@ -3,9 +3,12 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.websocket.server.PathParam;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.RoomDTO;
 import com.example.demo.dto.ScheduleDTO;
 import com.example.demo.dto.SeatDTO;
 import com.example.demo.dto.ShowScheduleDTO;
@@ -53,7 +57,7 @@ public class ScheduleController {
     private ScheduleRepository scheduleRepository;
     @Autowired
     private TicketRepository ticketRepository;
-    
+
     @Autowired
     private RoomRepository roomRepository;
 
@@ -63,47 +67,53 @@ public class ScheduleController {
     @Autowired
     private ModelMapper modelMapper;
 
-
-//    @GetMapping("/schedule")
-//    public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-//        Schedule schedule = scheduleRepository.findById(id).orElse(null);
-//        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
-//
-//        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
-//        List<String> seats = new ArrayList<>();
-//
-//        for (Ticket ticket : tickets) {
-//            seats.add(ticket.getSeat().getName());
-//        }
-//        // Collections.sort(seats);
-//        scheduleDTO.setSeats(seats);
-//        return scheduleDTO;
-//    }
-//    
     @GetMapping("/schedule")
+    public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
+        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        if (schedule.getRoom() != null) {
+            RoomDTO roomDTO = new RoomDTO(schedule.getRoom());
+            List<Seat> seatFromRoom = seatRepository.findSeatsByRoom(roomDTO.getId());
+            Map<Integer, String> seatMap = new TreeMap<>();
+            for (Seat seat : seatFromRoom) {
+                seatMap.put(seat.getId(), seat.getName());
+            }
+            
+            roomDTO.setSeatList(seatMap);
+            scheduleDTO = new ScheduleDTO(schedule, roomDTO);
+        }
+
+        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        List<String> seats = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+            seats.add(ticket.getSeat().getName());
+        }
+
+        // Collections.sort(seats);
+        //scheduleDTO.setSeats(seats);
+        return scheduleDTO;
+    }
+
+    @GetMapping("/schedules")
     public List<ScheduleDTO> getSchedule() {
         return scheduleService.getAllSchedule();
     }
-    
+
     @PostMapping("/schedule")
     public ScheduleDTO newSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-    	return scheduleService.save(scheduleDTO);
+        return scheduleService.save(scheduleDTO);
     }
-    
+
     @PutMapping("/schedule/{id}")
-    public ScheduleDTO updateSchedule(@RequestBody ScheduleDTO scheduleDTO, @PathVariable int id)
-    {
-    	scheduleDTO.setId(id);
-    	return scheduleService.save(scheduleDTO);
+    public ScheduleDTO updateSchedule(@RequestBody ScheduleDTO scheduleDTO, @PathVariable int id) {
+        scheduleDTO.setId(id);
+        return scheduleService.save(scheduleDTO);
     }
-    
+
     @DeleteMapping("/schedule/{id}")
     public void deleteSchdule(@PathVariable int id) {
-    	scheduleService.delete(id);
-    }
-    @GetMapping("/schedule/{id}")
-    public ScheduleDTO getSchedule(@RequestParam("id") int id) {
-        return scheduleService.findById(id);
+        scheduleService.delete(id);
     }
 
     @GetMapping("/ScheduleFromMovie")
@@ -160,13 +170,13 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping("/schedule/{idMovie}")
+    @GetMapping("/schedules/{idMovie}")
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie) {
-    	return scheduleService.getSchedule(idMovie);
+        return scheduleService.getSchedule(idMovie);
     }
-    
+
     @GetMapping("/schedule/{idMovie}/{idBranch}")
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie, @PathVariable int idBranch) {
-    	return scheduleService.getSchedule(idMovie, idBranch);
+        return scheduleService.getSchedule(idMovie, idBranch);
     }
 }

@@ -42,6 +42,17 @@ public class Movie {
 
 	@OneToMany(mappedBy = "movie")
 	private List<Schedule> schedules = new ArrayList<Schedule>();
+	
+	@OneToMany(mappedBy = "movie")
+	private List<PictureMovie> pictureMovies = new ArrayList<PictureMovie>();
+
+	public List<PictureMovie> getPictureMovies() {
+		return pictureMovies;
+	}
+
+	public void setPictureMovies(List<PictureMovie> pictureMovies) {
+		this.pictureMovies = pictureMovies;
+	}
 
 	public List<Schedule> getSchedules() {
 		return schedules;
