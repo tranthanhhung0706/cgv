@@ -29,15 +29,15 @@ public class ScheduleConvert {
         Schedule sche = new Schedule();
         // System.out.println(sDto.getPrice());
         sche.setPrice(sDto.getPrice());
-        sche.setStartDate(sDto.getStartDate());
-        sche.setStartTime(sDto.getStartTime());
+        sche.setStartDate(LocalDate.parse(sDto.getStartDate()));
+        sche.setStartTime(LocalTime.parse(sDto.getStartTime()));
         return sche;
     }
 
     public Schedule toEntity(ScheduleDTO sDto, Schedule sche) {
         sche.setPrice(sDto.getPrice());
-        sche.setStartDate(sDto.getStartDate());
-        sche.setStartTime(sDto.getStartTime());
+        sche.setStartDate(LocalDate.parse(sDto.getStartDate()));
+        sche.setStartTime(LocalTime.parse(sDto.getStartTime()));
         return sche;
     }
 }

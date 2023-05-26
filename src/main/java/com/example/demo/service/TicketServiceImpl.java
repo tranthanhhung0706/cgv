@@ -74,7 +74,8 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> tickets = new ArrayList<>();
         for (TicketDTO ticketDTO : ticketDTOs) {
             // check ticketId is instance??
-            ticketDTO.setQrImageUrl(createQRUrl(ticketDTO.getBillId() + "-" + ticketDTO.getSeatName()));
+            ticketDTO.setQrImageUrl(createQRUrl(
+                    ticketDTO.getScheduleId() + "-" + ticketDTO.getBillId() + "-" + ticketDTO.getSeatName()));
             //
             Ticket ticket = ticketConvert.toModel(ticketDTO);
             ticket.setBill(billRepository.findById(ticketDTO.getBillId()).orElse(null));
