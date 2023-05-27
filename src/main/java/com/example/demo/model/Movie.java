@@ -45,6 +45,9 @@ public class Movie {
 	
 	@OneToMany(mappedBy = "movie")
 	private List<PictureMovie> pictureMovies = new ArrayList<PictureMovie>();
+	
+	@OneToMany(mappedBy = "movie")
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	public List<PictureMovie> getPictureMovies() {
 		return pictureMovies;
@@ -180,6 +183,14 @@ public class Movie {
 
 	public void setIsShowing(int isShowing) {
 		this.isShowing = isShowing;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }
