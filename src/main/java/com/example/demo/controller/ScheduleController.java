@@ -67,8 +67,8 @@ public class ScheduleController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("/schedule")
-    public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
+    @GetMapping("/schedule-id")
+    public ScheduleDTO getScheduleByIdCuaQuynhThan(@RequestParam("id") int id) {
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
         if (schedule.getRoom() != null) {
@@ -91,7 +91,35 @@ public class ScheduleController {
         }
 
         // Collections.sort(seats);
-        //scheduleDTO.setSeats(seats);
+        scheduleDTO.setSeats(seats);
+        return scheduleDTO;
+    }
+    @GetMapping("/schedule")
+    public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
+        //plz dung sua cai api cua t
+        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        if (schedule.getRoom() != null) {
+            RoomDTO roomDTO = new RoomDTO(schedule.getRoom());
+            List<Seat> seatFromRoom = seatRepository.findSeatsByRoom(roomDTO.getId());
+            Map<Integer, String> seatMap = new TreeMap<>();
+            for (Seat seat : seatFromRoom) {
+                seatMap.put(seat.getId(), seat.getName());
+            }
+
+            roomDTO.setSeatList(seatMap);
+            scheduleDTO = new ScheduleDTO(schedule);
+        }
+
+        List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
+        List<String> seats = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+            seats.add(ticket.getSeat().getName());
+        }
+
+        // Collections.sort(seats);
+//        scheduleDTO.setSeats(seats);
         return scheduleDTO;
     }
 

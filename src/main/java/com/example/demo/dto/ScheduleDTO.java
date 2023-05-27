@@ -64,7 +64,7 @@ public class ScheduleDTO {
 		this.startTime = schedule.getStartTime().toString();
 		this.branchName = schedule.getBranch().getName();
 		this.movieName = schedule.getMovie().getName();
-		//this.room = roomDto;
+		this.room = roomDto;
 	}
 
 	public int getId() {
