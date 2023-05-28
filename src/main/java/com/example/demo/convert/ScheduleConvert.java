@@ -27,7 +27,6 @@ public class ScheduleConvert {
 
     public Schedule toEntity(ScheduleDTO sDto) {
         Schedule sche = new Schedule();
-        // System.out.println(sDto.getPrice());
         sche.setPrice(sDto.getPrice());
         sche.setStartDate(LocalDate.parse(sDto.getStartDate()));
         sche.setStartTime(LocalTime.parse(sDto.getStartTime()));

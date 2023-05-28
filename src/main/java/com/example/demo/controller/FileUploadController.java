@@ -67,16 +67,16 @@ public class FileUploadController {
 		return ResponseEntity.ok(base64String);
 	}
 
-	// @GetMapping("image/{fileName}")
-	// public ResponseEntity<byte[]> showImage(@PathVariable String fileName) {
-	// 	byte[] image = new byte[0];
-	// 	try {
-	// 		image = FileUtils.readFileToByteArray(new File(FILE_PATH_ROOT + fileName));
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	// 	return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-	// }
+	@GetMapping("image/{fileName}")
+	public ResponseEntity<byte[]> showImage(@PathVariable String fileName) {
+		byte[] image = new byte[0];
+		try {
+			image = FileUtils.readFileToByteArray(new File(FILE_PATH_ROOT + fileName));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+	}
 
 
 	@PostMapping("/uploadImage")

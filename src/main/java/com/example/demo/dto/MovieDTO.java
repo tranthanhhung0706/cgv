@@ -27,6 +27,15 @@ public class MovieDTO {
 	private String largeImageURL;
 	private List<ScheduleDTO> lScheduleDTOs;
 	private List<PictureMovieDTO> lPictureMovieDTOs;
+	private List<CommentDTO> lCommentDTOs;
+
+	public List<CommentDTO> getlCommentDTOs() {
+		return lCommentDTOs;
+	}
+
+	public void setlCommentDTOs(List<CommentDTO> lCommentDTOs) {
+		this.lCommentDTOs = lCommentDTOs;
+	}
 
 	public List<PictureMovieDTO> getlPictureMovieDTOs() {
 		return lPictureMovieDTOs;
@@ -43,6 +52,7 @@ public class MovieDTO {
 	public void setlScheduleDTOs(List<ScheduleDTO> lScheduleDTOs) {
 		this.lScheduleDTOs = lScheduleDTOs;
 	}
+
 	public String getLongDescription() {
 		return longDescription;
 	}

@@ -7,10 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
 import com.example.demo.dto.PictureMovieDTO;
 import com.example.demo.dto.ScheduleDTO;
+import com.example.demo.model.Comment;
 import com.example.demo.model.Movie;
 import com.example.demo.model.PictureMovie;
 import com.example.demo.model.Schedule;
@@ -20,6 +22,8 @@ public class MovieConvert {
 		public ScheduleConvert scheduleConvert;
 		@Autowired
 		public PictureMovieConVert pictureMovieConVert;
+		@Autowired
+		private CommentConVert commentConVert;
 	
 		public MovieDTO toDto(Movie entity) {
 			MovieDTO movieDTO=new MovieDTO();
@@ -35,12 +39,17 @@ public class MovieConvert {
 			movieDTO.setSmallImageURl(entity.getSmallImageURl());
 			List<PictureMovieDTO> listPictureMovies = new ArrayList<PictureMovieDTO>();
 			List<ScheduleDTO> lisScheduleDTOs = new ArrayList<ScheduleDTO>();
+			List<CommentDTO> liCommentDTOs = new ArrayList<CommentDTO>();
 			for(PictureMovie pictureMovie: entity.getPictureMovies())
 				listPictureMovies.add(pictureMovieConVert.toDTO(pictureMovie));
 			for(Schedule schedule: entity.getSchedules())
 				lisScheduleDTOs.add(scheduleConvert.toDTO(schedule));
+			for(Comment comment: entity.getComments()) {
+				liCommentDTOs.add(commentConVert.toDTO(comment));
+			}
 			movieDTO.setlPictureMovieDTOs(listPictureMovies);
 			movieDTO.setlScheduleDTOs(lisScheduleDTOs);
+			movieDTO.setlCommentDTOs(liCommentDTOs);
 			return movieDTO;
 		}
 		
