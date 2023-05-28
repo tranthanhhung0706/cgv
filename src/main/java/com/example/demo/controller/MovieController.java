@@ -26,6 +26,7 @@ import com.example.demo.dto.MovieDTO;
 import com.example.demo.dto.MovieDTO2;
 import com.example.demo.model.Movie;
 import com.example.demo.model.User;
+import com.example.demo.repository.MovieRepository;
 import com.example.demo.service.MovieService;
 
 @CrossOrigin(origins = "http://localhost:3006")
@@ -94,8 +95,7 @@ public class MovieController {
 	public ResponseEntity<Object> createMovie(@RequestBody MovieDTO2 movieDTO) {
 		Movie movie = modelMapper.map(movieDTO, Movie.class);
 		MovieDTO2 movie2 = movieService.save2(movie);
-		return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully",
-				movie2));
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Movie created successfully", movie2));
 	}
 
 	@PutMapping("api/movie/{id}")
@@ -122,8 +122,7 @@ public class MovieController {
 		movieExisting.setIsShowing(movieDTO.getIsShowing());
 
 		MovieDTO2 movie = movieService.save2(movieExisting);
-		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie updated successfully",
-				movie));
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Movie updated successfully", movie));
 
 	}
 

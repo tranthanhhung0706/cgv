@@ -23,4 +23,6 @@ public interface TicketService {
     void delete(TicketDTO ticket);
 
     List<TicketDTO> findBySchedule(Schedule schedule);
+
+    List<TicketDTO> getAllByUser(Integer userID);
 }

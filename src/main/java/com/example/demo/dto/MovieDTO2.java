@@ -151,8 +151,4 @@ public class MovieDTO2 {
 	public void setIsShowing(int isShowing) {
 		this.isShowing = isShowing;
 	}
-    
-	
-    
-	
 }
