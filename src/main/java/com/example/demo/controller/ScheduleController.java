@@ -69,6 +69,7 @@ public class ScheduleController {
 
     @GetMapping("/schedule-id")
     public ScheduleDTO getScheduleByIdCuaQuynhThan(@RequestParam("id") int id) {
+        //plz dung sua cai api cua t
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
         if (schedule.getRoom() != null) {
@@ -80,7 +81,8 @@ public class ScheduleController {
             }
             
             roomDTO.setSeatList(seatMap);
-            scheduleDTO = new ScheduleDTO(schedule, roomDTO);
+            String imgURL = schedule.getMovie().getSmallImageURl();
+            scheduleDTO = new ScheduleDTO(schedule, roomDTO, imgURL);
         }
 
         List<Ticket> tickets = ticketRepository.findBySchedule(schedule);
@@ -96,7 +98,6 @@ public class ScheduleController {
     }
     @GetMapping("/schedule")
     public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
-        //plz dung sua cai api cua t
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
         if (schedule.getRoom() != null) {

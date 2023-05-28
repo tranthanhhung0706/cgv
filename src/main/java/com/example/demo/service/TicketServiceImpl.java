@@ -70,12 +70,15 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> saveAll(List<TicketDTO> ticketDTOs) {
         // TODO Auto-generated method stub
-
+        String QR_URL = "" ;
+        for(TicketDTO ticketDTO : ticketDTOs){
+            QR_URL += " - " + ticketDTO.getSeatName();
+        }
         List<Ticket> tickets = new ArrayList<>();
         for (TicketDTO ticketDTO : ticketDTOs) {
             // check ticketId is instance??
             ticketDTO.setQrImageUrl(createQRUrl(
-                    ticketDTO.getScheduleId() + "-" + ticketDTO.getBillId() + "-" + ticketDTO.getSeatName()));
+                    ticketDTO.getScheduleId() + " : " + ticketDTO.getBillId() + " :" + QR_URL));
             //
             Ticket ticket = ticketConvert.toModel(ticketDTO);
             ticket.setBill(billRepository.findById(ticketDTO.getBillId()).orElse(null));
