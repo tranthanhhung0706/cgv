@@ -106,4 +106,6 @@ public class TicketController {
             return ResponseEntity.badRequest().body("Error get ticket by user id !!  " + e.getLocalizedMessage());
         }
     }
+
+    
 }
