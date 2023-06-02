@@ -22,6 +22,7 @@ import com.example.demo.dto.TicketDTO2;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Seat;
 import com.example.demo.model.Ticket;
+import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.SeatRepository;
 import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.BillService;
@@ -37,6 +38,8 @@ public class TicketController {
     TicketService ticketService;
     @Autowired
     BillService billService;
+    @Autowired
+    BillRepository billRepository;
     @Autowired
     SeatRepository seatRepository;
     @Autowired
@@ -91,7 +94,7 @@ public class TicketController {
         Bill bill = new Bill();
         bill.setCreatedTime(LocalDateTime.now());
         bill.setUser(userService.findByUsername(authenticationService.getCurrenUser().getUsername()).orElse(null));
-        bill.setIsPaied(1);
+        bill.setIsPaied(0);
         if (bill.getUser() == null) {
             return ResponseEntity.badRequest().body("Error authentication!!!");
         }
@@ -147,7 +150,16 @@ public class TicketController {
         return ResponseEntity.ok(response);
     }
 
-
+    @GetMapping("confirmPayment")
+    public ResponseEntity<Object> confirmPayment(@RequestParam int billId)
+    {
+        Bill bill = billRepository.findById(billId).orElse(null);
+        if (bill == null)
+            return ResponseEntity.notFound().build();
+        bill.setIsPaied(1);
+        bill =  billRepository.save(bill);
+        return ResponseEntity.ok(bill);    
+    }
 
     
     @GetMapping("/tickets")
