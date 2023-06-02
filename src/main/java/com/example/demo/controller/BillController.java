@@ -20,7 +20,7 @@ public class BillController {
     BillService billService;
 
     @GetMapping("/bill")
-    public ResponseEntity<?> getBill(@RequestParam int id,@RequestParam int t) {
+    public ResponseEntity<?> getBill(@RequestParam int id) {
         try {
             // add create date to billdto
             BillDTO response = billService.findById(id);

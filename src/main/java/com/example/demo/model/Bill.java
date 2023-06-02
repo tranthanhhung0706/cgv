@@ -25,7 +25,18 @@ public class Bill {
     @ManyToOne
     @JoinColumn(nullable = false,name="user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+	private User user;
+	
+	private int isPaied;
+
+	public int getIsPaied() {
+		return this.isPaied;
+	}
+
+	public void setIsPaied(int isPaied) {
+		this.isPaied = isPaied;
+	}
+
 	public int getId() {
 		return id;
 	}

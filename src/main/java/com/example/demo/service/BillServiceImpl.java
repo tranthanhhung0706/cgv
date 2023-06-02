@@ -40,6 +40,7 @@ public class BillServiceImpl implements BillService {
         if (bill != null) {
             dto.setId(bill.getId());
             dto.setTickets(ticketService.findByBill(bill));
+            dto.setIsPaied(bill.getIsPaied());
         }
         return dto;
     }
