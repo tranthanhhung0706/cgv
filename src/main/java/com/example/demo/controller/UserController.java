@@ -92,6 +92,15 @@ public class UserController {
 		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "User updated successfully", modelMapper.map(customer, CustomerDTO.class)));
 	}
 
+	@PostMapping("customer")
+    public ResponseEntity<Object> createdStaff(@RequestBody CustomerDTO customerDTO) {
+        Customer cus = modelMapper.map(customerDTO, Customer.class);
+        customerService.save(cus);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.CREATED.value(), "Customer created successfully",
+		null));
+
+    }
+
 	@DeleteMapping("customer/{id}")
 	public ResponseEntity<Object> deleteCustomer(@PathVariable Integer id) {
 		Customer customer = customerService.getCustomerById(id);

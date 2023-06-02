@@ -129,9 +129,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/scheduleByUserId")
-    public List<ScheduleDTO> getScheduleByUserId(@RequestParam("id") int id, @RequestParam(name = "q", required = false)  String searchTerm) {
+    public ResponseEntity<Object> getScheduleByUserId(@RequestParam("id") int id, @RequestParam(name = "q", required = false)  String searchTerm) {
         List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
         List<TicketDTO> ticketDTOs = ticketService.getAllByUser(id);
+        // if (ticketDTOs == null)
+        // {
+        //     ResponseEntity.notFound().build();
+        // }
         for (TicketDTO ticketDTO : ticketDTOs) {
 
             try {
@@ -145,7 +149,7 @@ public class ScheduleController {
         }
         if(searchTerm != null)
             scheduleDTOs =  scheduleDTOs.stream().filter(scheduleDTO -> scheduleDTO.getMovieName().toLowerCase().contains(searchTerm.toLowerCase())).collect(Collectors.toList());
-        return scheduleDTOs;
+        return ResponseEntity.ok(scheduleDTOs) ;
     }
     
 
