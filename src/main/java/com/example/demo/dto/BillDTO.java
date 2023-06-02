@@ -13,7 +13,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BillDTO {
 
-    private int id;
+	private int id;
+	private int isPaied;
+
+	public int getIsPaied() {
+		return this.isPaied;
+	}
+
+	public void setIsPaied(int isPaied) {
+		this.isPaied = isPaied;
+	}
+
     private List<TicketDTO> tickets;
 	public int getId() {
 		return id;

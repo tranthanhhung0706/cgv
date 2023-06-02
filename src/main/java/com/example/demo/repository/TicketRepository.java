@@ -18,6 +18,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     // void saveAll(List<Ticket> tickets);
 
-    @Query(value = "SELECT * from cinemaa.ticket t where t.bill_id in (select id from cinemaa.bill where cinemaa.bill.user_id = :user_id)", nativeQuery = true)
+    @Query(value = "SELECT * from cinema.ticket t where t.bill_id in (select id from cinema.bill where cinema.bill.user_id = :user_id)", nativeQuery = true)
     List<Ticket> getAllByUser(@Param("user_id") Integer userID);
 }
