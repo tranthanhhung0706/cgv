@@ -114,7 +114,7 @@ public class ScheduleController {
         }
 
         // Collections.sort(seats);
-        // scheduleDTO.setSeats(seats);
+
         // scheduleDTO.setSeats(seats);
         return scheduleDTO;
     }
