@@ -35,6 +35,7 @@ import com.example.demo.repository.SeatRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.ScheduleService;
 import com.example.demo.service.ScheduleServiceImpl;
+import com.example.demo.service.TicketService;
 import org.springframework.web.servlet.function.EntityResponse;
 
 @RequestMapping("/api")
@@ -52,6 +53,9 @@ public class ScheduleController {
 
     @Autowired
     private SeatRepository seatRepository;
+
+    @Autowired
+    private TicketService ticketService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -111,7 +115,35 @@ public class ScheduleController {
 
         // Collections.sort(seats);
         // scheduleDTO.setSeats(seats);
+        // scheduleDTO.setSeats(seats);
         return scheduleDTO;
+    }
+
+    @GetMapping("/scheduleByUserId")
+    public ResponseEntity<Object> getScheduleByUserId(@RequestParam("id") int id,
+            @RequestParam(name = "q", required = false) String searchTerm) {
+        List<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        List<TicketDTO> ticketDTOs = ticketService.getAllByUser(id);
+        // if (ticketDTOs == null)
+        // {
+        // ResponseEntity.notFound().build();
+        // }
+        for (TicketDTO ticketDTO : ticketDTOs) {
+
+            try {
+                Schedule schedule = scheduleRepository.findById(ticketDTO.getScheduleId()).orElse(null);
+                ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+                scheduleDTOs.add(scheduleDTO);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
+        }
+        if (searchTerm != null)
+            scheduleDTOs = scheduleDTOs.stream()
+                    .filter(scheduleDTO -> scheduleDTO.getMovieName().toLowerCase().contains(searchTerm.toLowerCase()))
+                    .collect(Collectors.toList());
+        return ResponseEntity.ok(scheduleDTOs);
     }
 
     @PostMapping("/save-schedule")
@@ -217,4 +249,5 @@ public class ScheduleController {
     public List<ScheduleDTO> getSchdules(@PathVariable int idMovie, @PathVariable int idBranch) {
         return scheduleService.getSchedule(idMovie, idBranch);
     }
+
 }
