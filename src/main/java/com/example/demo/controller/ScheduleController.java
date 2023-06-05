@@ -1,18 +1,12 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.websocket.server.PathParam;
 
+import com.example.demo.dto.*;
 import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.RoomDTO;
-import com.example.demo.dto.ScheduleDTO;
-import com.example.demo.dto.SeatDTO;
-import com.example.demo.dto.ShowScheduleDTO;
-import com.example.demo.dto.ShowTimeDTO;
-import com.example.demo.dto.TicketDTO;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Room;
 import com.example.demo.model.Schedule;
@@ -47,6 +35,7 @@ import com.example.demo.repository.SeatRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.ScheduleService;
 import com.example.demo.service.ScheduleServiceImpl;
+import org.springframework.web.servlet.function.EntityResponse;
 
 @RequestMapping("/api")
 @RestController
@@ -69,7 +58,7 @@ public class ScheduleController {
 
     @GetMapping("/schedule-id")
     public ScheduleDTO getScheduleByIdCuaQuynhThan(@RequestParam("id") int id) {
-        //plz dung sua cai api cua t
+        // plz dung sua cai api cua t
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
         if (schedule.getRoom() != null) {
@@ -79,7 +68,7 @@ public class ScheduleController {
             for (Seat seat : seatFromRoom) {
                 seatMap.put(seat.getId(), seat.getName());
             }
-            
+
             roomDTO.setSeatList(seatMap);
             String imgURL = schedule.getMovie().getSmallImageURl();
             scheduleDTO = new ScheduleDTO(schedule, roomDTO, imgURL);
@@ -96,6 +85,7 @@ public class ScheduleController {
         scheduleDTO.setSeats(seats);
         return scheduleDTO;
     }
+
     @GetMapping("/schedule")
     public ScheduleDTO getScheduleById(@RequestParam("id") int id) {
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
@@ -120,8 +110,27 @@ public class ScheduleController {
         }
 
         // Collections.sort(seats);
-//        scheduleDTO.setSeats(seats);
+        // scheduleDTO.setSeats(seats);
         return scheduleDTO;
+    }
+
+    @PostMapping("/save-schedule")
+    public ResponseEntity<?> addUpdateSchedule(@RequestBody ScheduleUpdateDTO scheduleUpdateDTO) {
+        // json request body
+        // {
+        // "id": 5,
+        // "price": 300000.0,
+        // "startDate": "2023-03-07",
+        // "startTime": "10:00",
+        // "branchId": 1,
+        // "movieId": 1,
+        // "roomId": 1
+        // }
+        ScheduleUpdateDTO sche = scheduleService.saveUpdate(scheduleUpdateDTO);
+        if (Objects.nonNull(sche)) {
+            return ResponseEntity.ok(sche);
+        }
+        return (ResponseEntity<?>) ResponseEntity.badRequest();
     }
 
     @GetMapping("/schedules")

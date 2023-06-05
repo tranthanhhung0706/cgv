@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://localhost:5173/" );
+        configuration.addAllowedOrigin("http://localhost:5173/");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login", "/api/movies/showing", "/api/movies/showing/search", "/register",
-                        "/api/movies/details", "/api/**", "/user","/movie","/image/**","api/movie/**")
+                        "/api/movies/details", "/api/**", "/user", "/movie", "/image/**", "api/movie/**", "/nhung")
                 .permitAll()
                 .antMatchers("/").hasRole("ADMIN")
                 .antMatchers("/").hasRole("CLIENT")
